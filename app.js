@@ -133,7 +133,7 @@ app.post("/interactions", async function (req, res) {
 
     if (customObj.header === "USERBUTTON") {
       if (customObj.owner !== userId) {
-        SendEphemeralMessage(res, "That's not your button!");
+        return SendEphemeralMessage(res, "That's not your button!");
       }
 
       if (customObj.owner === userId) {
@@ -142,15 +142,31 @@ app.post("/interactions", async function (req, res) {
         //Find the right button and update it
         const buttonIndex = messageComponents[0].components.findIndex((button => button.custom_id.includes(userId)));
         const userButton = messageComponents[0].components[buttonIndex];
+
+        let alertUsers = []
         if (userButton.label.includes("Ready")) {
           userButton.label = userButton.label.replace("Ready", "Done");
           userButton.style = ButtonStyleTypes.SUCCESS;
+
+        var buttons = messageComponents[0].components;
+          for (let i = 0; i < buttons.length; i++) {
+            console.log(buttons[i])
+            if (buttons[i].label.includes("Ready")) {
+              const id = buttons[i].custom_id.substring(0, buttons[i].custom_id.indexOf("_"));
+              alertUsers.push(id)
+            }
+          }
         }
         else if (userButton.label.includes("Done")) {
           userButton.label = userButton.label.replace("Done", "Ready");
           userButton.style = ButtonStyleTypes.PRIMARY;
         }
-        UpdateMessage(res, req.body.message.content, messageComponents)
+
+        const alertMessage = alertUsers.map(function (id) {
+          return `<@${id}>`
+        }).toString();
+
+        return UpdateMessage(req, res, req.body.message.content, alertMessage, messageComponents)
       }
     }
     if (customObj.header === "RESET") {
@@ -163,7 +179,7 @@ app.post("/interactions", async function (req, res) {
           buttons[i].style = ButtonStyleTypes.PRIMARY;
         }       
       }
-      UpdateMessage(res, req.body.message.content, messageComponents)
+      return UpdateMessage(req, res, req.body.message.content, [""], messageComponents)
     }
   }
 });

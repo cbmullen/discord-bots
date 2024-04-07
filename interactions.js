@@ -5,6 +5,7 @@ import {
 } from "discord-interactions";
 import {
   DiscordRequest,
+  SplitMessage,
 } from "./utils.js";
 
 export async function SendEphemeralMessage(res, message) {
@@ -17,14 +18,21 @@ export async function SendEphemeralMessage(res, message) {
   });
 }
 
-export async function UpdateMessage(res, message, components) {
-  await res.send({
-    type: InteractionResponseType.UPDATE_MESSAGE,
+export async function SendMessage(res, message, components) {
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,
       components: components
     },
   });
+}
+
+export async function UpdateMessage(req, res, message, alertContent, components) {
+  const requestMessage = SplitMessage(message);
+  const newMessage = `${requestMessage.message}\n ${alertContent}`
+  await SendMessage(res, newMessage, components)
+  DeleteMessage(req)
 }
 
 export async function DeleteMessage(req) {
@@ -34,7 +42,7 @@ export async function DeleteMessage(req) {
 
 export async function SendButtons(res, buttons, message)
 {
-  await res.send({
+  return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,

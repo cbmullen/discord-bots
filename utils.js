@@ -14,6 +14,16 @@ export function SplitCustomId(string){
   return id;
 }
 
+export function SplitMessage(string){
+  const words = string.split(`\n`);
+
+  const id = {
+    "message": `${words[0]}`,
+    "alert": `${words[1]}`
+  }
+  return id;
+}
+
 export function VerifyDiscordRequest(clientKey) {
   return function (req, res, buf, encoding) {
     const signature = req.get('X-Signature-Ed25519');
