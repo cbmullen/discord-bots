@@ -14,7 +14,9 @@ import {
   DeleteMessage,
   SendEphemeralMessage,
   SendButtons,
-  UpdateMessage
+  UpdateMessage,
+  SendUserSelectMessage,
+  SendUserOrderSelectMessage
 } from "./interactions.js";
 
 // Create an express app
@@ -25,7 +27,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 // Store for in-progress games. In production, you'd want to use a DB
-let userButtons = [];
+let orderedUserList = [];
+const dateTime = new Date().toDateString();
+
 
 /**
  * Interactions endpoint URL where Discord will send HTTP requests
@@ -48,32 +52,16 @@ app.post("/interactions", async function (req, res) {
 
   if (type === InteractionType.APPLICATION_COMMAND) {
     const { name } = data;
-    const dateTime = new Date().toLocaleDateString();
 
     // "pbem" command
     if (name === "pbem") {
-      const gameName = req.body.data.options[0].value;
-      const uid = `${gameName}_${dateTime}`;
 
-      return res.send({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: `Choose players for a new game of ${gameName}`,
-          components: [
-            {
-              type: MessageComponentTypes.ACTION_ROW,
-              components: [
-                {
-                  type: MessageComponentTypes.USER_SELECT,
-                  custom_id: `DISCORD_NEWGAME_${uid}`, //Required to pass through state
-                  min_values: 1,
-                  max_values: 10,
-                },
-              ],
-            },
-          ],
-        },
-      });
+      //Getting all the params passed into the new game creation
+      const gameName = req.body.data.options[0].value;
+      const isSequential = req.body.data.options[1].value;
+      const message = `Choose players for a new game of ${gameName}`
+      const customId = `DISCORD_NEWGAME_${gameName}_${dateTime}_${isSequential}`
+      return SendUserSelectMessage(res, message, customId, 10);
     }
   }
 
@@ -82,49 +70,76 @@ app.post("/interactions", async function (req, res) {
    **/
 
   if (type === InteractionType.MESSAGE_COMPONENT) {
-    // custom_id set in payload when sending message component
-    const dateTime = new Date().toLocaleDateString();
-
     const customObj = SplitCustomId(data.custom_id);
 
     /**
-   * Create Starter Buttons from Users List
+   * Create Users List - fire off buttons if no ordering required
    **/
     if (customObj.header === "NEWGAME") {
       // Get the list of users selected for the game.
       const userList = [];
       const keys = Object.keys(data.resolved.users);
+      // console.log(keys);
       keys.forEach((key) => {
-        let obj = {
-          "info": data.resolved.users[key],
-          "state": "Ready",
-          "style": ButtonStyleTypes.PRIMARY
-        }
-        userList.push(obj);
+        userList.push({
+          "id": data.resolved.users[key].id,
+          "username": data.resolved.users[key].username
+        });
       });
 
-      // Map Users to Buttons from response.
-      userButtons = userList.map(function (user) {
-        return {
-          type: MessageComponentTypes.BUTTON,
-          custom_id: `${user.info.id}_USERBUTTON_${customObj.name}_${dateTime}`,
-          label: `${user.info.username}: ${user.state}`,
-          style: `${user.style}`,
-        };
-      });
+      if (customObj.isSequential === "true"){
+      /**
+      * We need to order the results by firing off another new event Header. 
+      * That event will call itself until No users remain. Then it will call create buttons
+      **/
+        const customId = `$DISCORD_USERSORTING_${customObj.name}_${dateTime}_${customObj.isSequential}`
+        const options = userList.map(function (user) {
+          return {
+            label: `${user.username}`,
+            value: `${user.id}`
+          };
+        });
 
-      userButtons.push({
-        type: MessageComponentTypes.BUTTON,
-        custom_id: `GROUP_RESET_${customObj.name}_${dateTime}`,
-        label: `Reset`,
-        style: ButtonStyleTypes.SECONDARY,
-      });
-
-      const message = `Playing: ${customObj.name}. (Started at: ${customObj.datetime}).`
-      await SendButtons(res, userButtons, message)
-      await DeleteMessage(req)
+        SendUserOrderSelectMessage(res, "Select Player 1", customId, options)
+        await DeleteMessage(req)
+      }
+      if (customObj.isSequential === "false") {
+        CreateAndSendButtonsFromList(userList, customObj);
+      }
     }
 
+    /**
+    * We need to order the results by firing off another new event Header. 
+    * That event will call itself until No users remain. Then it will call create buttons
+    **/
+
+    if (customObj.header === "USERSORTING") {
+      const selectedUser = req.body.data.values[0];
+      const selectedUserName = req.body.message.components[0].components[0].options.find(user => user.value === selectedUser).label;
+
+      // Store the selectedUser in an OrderedList (temp)
+      orderedUserList.push({
+        "id": selectedUser,
+        "username": selectedUserName
+      });
+
+      //Take out the previously selectedUser from the selection
+      const options = req.body.message.components[0].components[0].options.filter(item => item.value !== selectedUser)
+
+      if (options.length > 1)
+      {
+        SendUserOrderSelectMessage(res, `Select Player ${orderedUserList.length + 1}`, req.body.data.custom_id, options)
+        await DeleteMessage(req)
+      } else {
+        orderedUserList.push({
+          "id": options[0].value,
+          "username": options[0].label
+        });
+
+        CreateAndSendButtonsFromList(orderedUserList, customObj);
+        orderedUserList = []
+      }
+    }
     /**
    * Clicking a button
    **/
@@ -140,51 +155,87 @@ app.post("/interactions", async function (req, res) {
         const messageComponents = req.body.message.components
 
         //Find the right button and update it
+        const buttons = messageComponents[0].components;
         const buttonIndex = messageComponents[0].components.findIndex((button => button.custom_id.includes(userId)));
-        const userButton = messageComponents[0].components[buttonIndex];
 
-        let alertUsers = []
-        if (userButton.label.includes("Ready")) {
-          userButton.label = userButton.label.replace("Ready", "Done");
-          userButton.style = ButtonStyleTypes.SUCCESS;
+        const userButton = buttons[buttonIndex];
 
-        var buttons = messageComponents[0].components;
+        userButton.label = userButton.label.replace("Ready", "Done");
+        userButton.style = ButtonStyleTypes.SUCCESS;
+        userButton.disabled = true;
+
+        // Will only apply to sequential
+        if (customObj.isSequential === "true") {
+          let nextIdx = buttonIndex + 1
+          if (nextIdx === buttons.length) // wraparound
+            nextIdx = 0
+          
+          const nextUserButton = buttons[nextIdx];
+          nextUserButton.label = nextUserButton.label.replace("Done", "Ready");
+          nextUserButton.style = ButtonStyleTypes.PRIMARY;
+          nextUserButton.disabled = false;
+        }
+
+        // Will only ever apply to simultaneous
+        if (buttons.every(button => button.disabled === true))
+        {
           for (let i = 0; i < buttons.length; i++) {
-            console.log(buttons[i])
-            if (buttons[i].label.includes("Ready")) {
-              const id = buttons[i].custom_id.substring(0, buttons[i].custom_id.indexOf("_"));
-              alertUsers.push(id)
-            }
+            buttons[i].label = buttons[i].label.replace("Done", "Ready");
+            buttons[i].style = ButtonStyleTypes.PRIMARY;
+            buttons[i].disabled = false;  
           }
         }
-        else if (userButton.label.includes("Done")) {
-          userButton.label = userButton.label.replace("Done", "Ready");
-          userButton.style = ButtonStyleTypes.PRIMARY;
-        }
 
-        let alertMessage = [""];
-        if (alertUsers.length > 0)
-        {
-          alertMessage = alertUsers.map(function (id) {
-            return `<@${id}>`
-          }).toString();
-        }
-
-        return UpdateMessage(req, res, req.body.message.content, alertMessage, messageComponents)
+        const alertMessage = CreateAlertMessage(buttons);
+        return UpdateMessage(req, res, alertMessage)
       }
     }
-    if (customObj.header === "RESET") {
-      const messageComponents = req.body.message.components
-      const buttons = messageComponents[0].components
+  }
+    /**
+   * Shared function for creating the buttons from a list
+   **/
+    async function CreateAndSendButtonsFromList(list, customObj) {
+      // Map Users to Buttons from response.
+      const userButtons = list.map(function (user) {
+        return {
+          type: MessageComponentTypes.BUTTON,
+          custom_id: `${user.id}_USERBUTTON_${customObj.name}_${customObj.dateTime}_${customObj.isSequential}`,
+          label: `${user.username}: Ready`,
+          style: ButtonStyleTypes.PRIMARY,
+        };
+      });
 
-      for (let i = 0; i < messageComponents[0].components.length; i++) {
-        if (buttons[i].label.includes("Done")) {
-          buttons[i].label = buttons[i].label.replace("Done", "Ready");
-          buttons[i].style = ButtonStyleTypes.PRIMARY;
-        }       
-      }
-      return UpdateMessage(req, res, req.body.message.content, [""], messageComponents)
+      if (customObj.isSequential === "true") // Disable all but the current user
+        for (let i = 1; i < userButtons.length; i++) {
+          userButtons[i].disabled = true;
+          userButtons[i].label = userButtons[i].label.replace("Ready", "Done");
+          userButtons[i].style = ButtonStyleTypes.SUCCESS;
+        }
+
+      const message = `Playing: ${customObj.name}. (Started at: ${customObj.datetime}).`
+      const alertContent = CreateAlertMessage(userButtons);
+      await SendButtons(res, userButtons, message, alertContent)
+      await DeleteMessage(req)
     }
+
+  /**
+   * Shared function for creating alert list
+   **/
+  function CreateAlertMessage(buttons) {
+    // Set Alerted User(s)
+    let alertUsers = []
+
+    // Alert All ready users.
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].label.includes("Ready")) {
+        const id = SplitCustomId(buttons[i].custom_id).owner;
+        alertUsers.push(id)
+      }
+    }
+
+    return alertUsers.map(function (id) {
+        return ` <@${id}>`
+      }).toString();
   }
 });
 

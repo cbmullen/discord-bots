@@ -11,7 +11,13 @@ const PBEM_COMMAND = {
       name: 'name',
       description: 'Name your game',
       required: true,
-    }
+    },
+    {
+      type: 5,
+      name: 'issequential',
+      description: 'Clicking done alerts the next person in the game',
+      required: true,
+    },
   ],
   type: 1,
 };

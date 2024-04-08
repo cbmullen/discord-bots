@@ -9,7 +9,8 @@ export function SplitCustomId(string){
     "owner": `${words[0]}`,
     "header": `${words[1]}`,
     "name": `${words[2]}`,
-    "datetime": `${words[3]}`
+    "datetime": `${words[3]}`,
+    "isSequential": `${words[4]}`,
   }
   return id;
 }
