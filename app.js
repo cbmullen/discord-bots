@@ -61,7 +61,7 @@ app.post("/interactions", async function (req, res) {
       const isSequential = req.body.data.options[1].value;
       const message = `Choose players for a new game of ${gameName}`
       const customId = `DISCORD_NEWGAME_${gameName}_${dateTime}_${isSequential}`
-      return SendUserSelectMessage(res, message, customId, 10);
+      await SendUserSelectMessage(res, message, customId, 10);
     }
   }
 
@@ -100,11 +100,11 @@ app.post("/interactions", async function (req, res) {
           };
         });
 
-        SendUserOrderSelectMessage(res, "Select Player 1", customId, options)
+        await SendUserOrderSelectMessage(res, "Select Player 1", customId, options)
         await DeleteMessage(req)
       }
       if (customObj.isSequential === "false") {
-        CreateAndSendButtonsFromList(userList, customObj);
+        await CreateAndSendButtonsFromList(userList, customObj);
       }
     }
 
@@ -128,7 +128,7 @@ app.post("/interactions", async function (req, res) {
 
       if (options.length > 1)
       {
-        SendUserOrderSelectMessage(res, `Select Player ${orderedUserList.length + 1}`, req.body.data.custom_id, options)
+        await SendUserOrderSelectMessage(res, `Select Player ${orderedUserList.length + 1}`, req.body.data.custom_id, options)
         await DeleteMessage(req)
       } else {
         orderedUserList.push({
@@ -136,7 +136,7 @@ app.post("/interactions", async function (req, res) {
           "username": options[0].label
         });
 
-        CreateAndSendButtonsFromList(orderedUserList, customObj);
+        await CreateAndSendButtonsFromList(orderedUserList, customObj);
         orderedUserList = []
       }
     }
@@ -148,7 +148,7 @@ app.post("/interactions", async function (req, res) {
 
     if (customObj.header === "USERBUTTON") {
       if (customObj.owner !== userId) {
-        return SendEphemeralMessage(res, "That's not your button!");
+        await SendEphemeralMessage(res, "That's not your button!");
       }
 
       if (customObj.owner === userId) {

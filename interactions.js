@@ -9,7 +9,7 @@ import {
 } from "./utils.js";
 
 export async function SendUserOrderSelectMessage(res, message, customId, options) {
-  return res.send({
+  await res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,
@@ -31,7 +31,7 @@ export async function SendUserOrderSelectMessage(res, message, customId, options
 
 
 export async function SendUserSelectMessage(res, message, customId, maxUsers) {
-  return res.send({
+  await res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,
@@ -63,7 +63,7 @@ export async function SendEphemeralMessage(res, message) {
 }
 
 export async function SendMessage(res, message, components) {
-  return res.send({
+  await res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,
@@ -76,7 +76,7 @@ export async function UpdateMessage(req, res, alertContent) {
   const requestMessage = SplitMessage(req.body.message.content);
   const newMessage = `${requestMessage.message}\n${alertContent}`
   await SendMessage(res, newMessage, req.body.message.components)
-  DeleteMessage(req)
+  await DeleteMessage(req)
 }
 
 export async function DeleteMessage(req) {
@@ -86,7 +86,7 @@ export async function DeleteMessage(req) {
 
 export async function SendButtons(res, buttons, message, alertContent)
 {
-  return res.send({
+  await res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}\n${alertContent}`,
