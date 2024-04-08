@@ -162,9 +162,13 @@ app.post("/interactions", async function (req, res) {
           userButton.style = ButtonStyleTypes.PRIMARY;
         }
 
-        const alertMessage = alertUsers.map(function (id) {
-          return `<@${id}>`
-        }).toString();
+        let alertMessage = [""];
+        if (alertUsers.length > 0)
+        {
+          alertMessage = alertUsers.map(function (id) {
+            return `<@${id}>`
+          }).toString();
+        }
 
         return UpdateMessage(req, res, req.body.message.content, alertMessage, messageComponents)
       }
