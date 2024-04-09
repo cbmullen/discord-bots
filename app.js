@@ -147,48 +147,54 @@ app.post("/interactions", async function (req, res) {
     const userId = req.body.member.user.id;
 
     if (customObj.header === "USERBUTTON") {
-      if (customObj.owner !== userId) {
-        await SendEphemeralMessage(res, "That's not your button!");
+      const messageComponents = req.body.message.components
+      //Find the right button and update it
+      const buttons = messageComponents[0].components;
+
+      if (customObj.isSequential === "true")
+      {
+        const clickedButtonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(req.body.data.custom_id).owner)));
+        const clickedButton = buttons[clickedButtonIndex];
+
+        for (let i = 0; i < buttons.length; i++) {
+          buttons[i].label = buttons[i].label.replace("Ready", "Done");
+          buttons[i].style = ButtonStyleTypes.SUCCESS;
+          buttons[i].disabled = false;  
+        }
+
+        clickedButton.style = ButtonStyleTypes.PRIMARY;
+        clickedButton.disabled = true;
+        clickedButton.label = clickedButton.label.replace("Done", "Ready");
       }
+      else
+      {
+        if (customObj.owner !== userId) {
+          await SendEphemeralMessage(res, "That's not your button!");
+        }
 
-      if (customObj.owner === userId) {
-        const messageComponents = req.body.message.components
-
-        //Find the right button and update it
-        const buttons = messageComponents[0].components;
-        const buttonIndex = messageComponents[0].components.findIndex((button => button.custom_id.includes(userId)));
-
+        const buttonIndex = buttons.findIndex((button => button.custom_id.includes(userId)));
         const userButton = buttons[buttonIndex];
 
-        userButton.label = userButton.label.replace("Ready", "Done");
-        userButton.style = ButtonStyleTypes.SUCCESS;
-        userButton.disabled = true;
+        if (customObj.owner === userId) {
+          userButton.label = userButton.label.replace("Ready", "Done");
+          userButton.style = ButtonStyleTypes.SUCCESS;
+          userButton.disabled = true;
 
-        // Will only apply to sequential
-        if (customObj.isSequential === "true") {
-          let nextIdx = buttonIndex + 1
-          if (nextIdx === buttons.length) // wraparound
-            nextIdx = 0
-          
-          const nextUserButton = buttons[nextIdx];
-          nextUserButton.label = nextUserButton.label.replace("Done", "Ready");
-          nextUserButton.style = ButtonStyleTypes.PRIMARY;
-          nextUserButton.disabled = false;
-        }
-
-        // Will only ever apply to simultaneous
-        if (buttons.every(button => button.disabled === true))
-        {
-          for (let i = 0; i < buttons.length; i++) {
-            buttons[i].label = buttons[i].label.replace("Done", "Ready");
-            buttons[i].style = ButtonStyleTypes.PRIMARY;
-            buttons[i].disabled = false;  
+          if (buttons.every(button => button.disabled === true))
+          {
+            for (let i = 0; i < buttons.length; i++) {
+              buttons[i].label = buttons[i].label.replace("Done", "Ready");
+              buttons[i].style = ButtonStyleTypes.PRIMARY;
+              buttons[i].disabled = false;  
+            }
           }
         }
-
-        const alertMessage = CreateAlertMessage(buttons);
-        return UpdateMessage(req, res, alertMessage)
       }
+
+      const alertMessage = CreateAlertMessage(buttons);
+      await UpdateMessage(req, res, alertMessage)
+
+      return DeleteMessage(req);
     }
   }
     /**
@@ -205,12 +211,15 @@ app.post("/interactions", async function (req, res) {
         };
       });
 
-      if (customObj.isSequential === "true") // Disable all but the current user
+      if (customObj.isSequential === "true") { // Enable all but the current user
+        userButtons[0].disabled = true;
+
         for (let i = 1; i < userButtons.length; i++) {
-          userButtons[i].disabled = true;
+          userButtons[i].disabled = false;
           userButtons[i].label = userButtons[i].label.replace("Ready", "Done");
           userButtons[i].style = ButtonStyleTypes.SUCCESS;
         }
+      }
 
       const message = `Playing: ${customObj.name}. (Started at: ${customObj.datetime}).`
       const alertContent = CreateAlertMessage(userButtons);

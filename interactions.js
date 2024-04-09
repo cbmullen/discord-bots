@@ -76,7 +76,6 @@ export async function UpdateMessage(req, res, alertContent) {
   const requestMessage = SplitMessage(req.body.message.content);
   const newMessage = `${requestMessage.message}\n${alertContent}`
   await SendMessage(res, newMessage, req.body.message.components)
-  await DeleteMessage(req)
 }
 
 export async function DeleteMessage(req) {
