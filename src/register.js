@@ -1,4 +1,4 @@
-import { PBEM_COMMAND, INVITE_COMMAND } from './commands.js';
+import { PBEM_COMMAND } from './commands.js';
 import dotenv from 'dotenv';
 import process from 'node:process';
 
@@ -34,7 +34,7 @@ const response = await fetch(url, {
     Authorization: `Bot ${token}`,
   },
   method: 'PUT',
-  body: JSON.stringify([PBEM_COMMAND, INVITE_COMMAND]),
+  body: JSON.stringify([PBEM_COMMAND]),
 });
 
 if (response.ok) {
