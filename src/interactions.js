@@ -4,12 +4,11 @@ import {
     MessageComponentTypes,
 } from "discord-interactions";
 import {
-  DiscordRequest,
   SplitMessage,
 } from "./utils.js";
 
-export async function SendUserOrderSelectMessage(res, message, customId, options) {
-  await res.send({
+export function SendUserOrderSelectMessage(message, customId, options) {
+  return {
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,
@@ -26,12 +25,11 @@ export async function SendUserOrderSelectMessage(res, message, customId, options
         },
       ],
     },
-  });
+  };
 }
 
-
-export async function SendUserSelectMessage(res, message, customId, maxUsers) {
-  await res.send({
+export function SendUserSelectMessage(message, customId, maxUsers) {
+  return {
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,
@@ -49,43 +47,38 @@ export async function SendUserSelectMessage(res, message, customId, maxUsers) {
         },
       ],
     },
-  });
+  };
 }
 
-export async function SendEphemeralMessage(res, message) {
-  await res.send({
+export function SendEphemeralMessage(message) {
+  return {
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,
       flags: InteractionResponseFlags.EPHEMERAL,
     },
-  });
+  };
 }
 
-export async function SendMessage(res, message, components) {
-  await res.send({
+export function SendMessage(message, components) {
+  return {
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}`,
       components: components
     },
-  });
+  };
 }
 
-export async function UpdateMessage(req, res, alertContent) {
-  const requestMessage = SplitMessage(req.body.message.content);
+export function UpdateMessage(interaction, alertContent) {
+  const requestMessage = SplitMessage(interaction.message.content);
   const newMessage = `${requestMessage.message}\n${alertContent}`
-  await SendMessage(res, newMessage, req.body.message.components)
+  return SendMessage(newMessage, interaction.message.components)
 }
 
-export async function DeleteMessage(req) {
-  const endpoint = `webhooks/${process.env.APP_ID}/${req.body.token}/messages/${req.body.message.id}`;
-  await DiscordRequest(endpoint, { method: 'DELETE' });
-}
-
-export async function SendButtons(res, buttons, message, alertContent)
+export function SendButtons(buttons, message, alertContent)
 {
-  await res.send({
+  return {
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
       content: `${message}\n${alertContent}`,
@@ -96,5 +89,5 @@ export async function SendButtons(res, buttons, message, alertContent)
         },
       ],
     },
-  });
+  };
 }

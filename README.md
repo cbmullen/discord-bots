@@ -1,111 +1,145 @@
-# Getting Started app for Discord
+# Cloudflare worker example app
 
-This project contains a basic rock-paper-scissors-style Discord app written in JavaScript, built for the [getting started guide](https://discord.com/developers/docs/getting-started).
+pbem-helperbot is an example app that brings the cuteness of `r/pbem-helper` straight to your Discord server, hosted on Cloudflare workers. Cloudflare Workers are a convenient way to host Discord bots due to the free tier, simple development model, and automatically managed environment (no VMs!).
 
-![Demo of app](https://github.com/discord/discord-example-app/raw/main/assets/getting-started-demo.gif?raw=true)
+The tutorial for building pbem-helperbot is [in the developer documentation](https://discord.com/developers/docs/tutorials/hosting-on-cloudflare-workers)
 
-> ✨ A version of this code is also hosted **[on Glitch 🎏](https://glitch.com/~getting-started-discord)** and **[on Replit 🌀](https://replit.com/github/discord/discord-example-app)**
+![pbem-helperbot in action](https://user-images.githubusercontent.com/534619/157503404-a6c79d1b-f0d0-40c2-93cb-164f9df7c138.gif)
+
+## Resources used
+
+- [Discord Interactions API](https://discord.com/developers/docs/interactions/receiving-and-responding)
+- [Cloudflare Workers](https://workers.cloudflare.com/) for hosting
+- [Reddit API](https://www.reddit.com/dev/api/) to send messages back to the user
+
+---
 
 ## Project structure
+
 Below is a basic overview of the project structure:
 
 ```
-├── examples    -> short, feature-specific sample apps
-│   ├── app.js  -> finished app.js code
-│   ├── button.js
-│   ├── command.js
-│   ├── modal.js
-│   ├── selectMenu.js
-├── .env.sample -> sample .env file
-├── app.js      -> main entrypoint for app
-├── commands.js -> slash command payloads + helpers
-├── game.js     -> logic specific to RPS
-├── utils.js    -> utility functions and enums
+├── .github/workflows/ci.yaml -> Github Action configuration
+├── src
+│   ├── commands.js           -> JSON payloads for commands
+│   ├── reddit.js             -> Interactions with the Reddit API
+│   ├── register.js           -> Sets up commands with the Discord API
+│   ├── server.js             -> Discord app logic and routing
+├── test
+|   ├── test.js               -> Tests for app
+├── wrangler.toml             -> Configuration for Cloudflare workers
 ├── package.json
 ├── README.md
+├── .eslintrc.json
+├── .prettierignore
+├── .prettierrc.json
 └── .gitignore
 ```
 
-## Running app locally
+## Configuring project
 
-Before you start, you'll need to install [NodeJS](https://nodejs.org/en/download/) and [create a Discord app](https://discord.com/developers/applications) with the proper permissions:
-- `applications.commands`
-- `bot` (with Send Messages enabled)
+Before starting, you'll need a [Discord app](https://discord.com/developers/applications) with the following permissions:
 
+- `bot` with the `Send Messages` and `Use Slash Command` permissions
+- `applications.commands` scope
 
-Configuring the app is covered in detail in the [getting started guide](https://discord.com/developers/docs/getting-started).
+> ⚙️ Permissions can be configured by clicking on the `OAuth2` tab and using the `URL Generator`. After a URL is generated, you can install the app by pasting that URL into your browser and following the installation flow.
 
-### Setup project
+## Creating your Cloudflare worker
+
+Next, you'll need to create a Cloudflare Worker.
+
+- Visit the [Cloudflare dashboard](https://dash.cloudflare.com/)
+- Click on the `Workers` tab, and create a new service using the same name as your Discord bot
+
+## Running locally
 
 First clone the project:
+
 ```
-git clone https://github.com/discord/discord-example-app.git
+git clone https://github.com/discord/cloudflare-sample-app.git
 ```
 
 Then navigate to its directory and install dependencies:
+
 ```
-cd discord-example-app
+cd cloudflare-sample-app
 npm install
 ```
-### Get app credentials
 
-Fetch the credentials from your app's settings and add them to a `.env` file (see `.env.sample` for an example). You'll need your app ID (`APP_ID`), bot token (`DISCORD_TOKEN`), and public key (`PUBLIC_KEY`).
+> ⚙️ The dependencies in this project require at least v18 of [Node.js](https://nodejs.org/en/)
 
-Fetching credentials is covered in detail in the [getting started guide](https://discord.com/developers/docs/getting-started).
+### Local configuration
 
-> 🔑 Environment variables can be added to the `.env` file in Glitch or when developing locally, and in the Secrets tab in Replit (the lock icon on the left).
+> 💡 More information about generating and fetching credentials can be found [in the tutorial](https://discord.com/developers/docs/tutorials/hosting-on-cloudflare-workers#storing-secrets)
 
-### Install slash commands
+Rename `example.dev.vars` to `.dev.vars`, and make sure to set each variable.
 
-The commands for the example app are set up in `commands.js`. All of the commands in the `ALL_COMMANDS` array at the bottom of `commands.js` will be installed when you run the `register` command configured in `package.json`:
+**`.dev.vars` contains sensitive data so make sure it does not get checked into git**.
 
-```
-npm run register
-```
+### Register commands
 
-### Run the app
-
-After your credentials are added, go ahead and run the app:
+The following command only needs to be run once:
 
 ```
-node app.js
+$ npm run register
 ```
 
-> ⚙️ A package [like `nodemon`](https://github.com/remy/nodemon), which watches for local changes and restarts your app, may be helpful while locally developing.
+### Run app
 
-If you aren't following the [getting started guide](https://discord.com/developers/docs/getting-started), you can move the contents of `examples/app.js` (the finished `app.js` file) to the top-level `app.js`.
-
-### Set up interactivity
-
-The project needs a public endpoint where Discord can send requests. To develop and test locally, you can use something like [`ngrok`](https://ngrok.com/) to tunnel HTTP traffic.
-
-Install ngrok if you haven't already, then start listening on port `3000`:
+Now you should be ready to start your server:
 
 ```
-ngrok http 3000
+$ npm run dev
 ```
 
-You should see your connection open:
+### Setting up ngrok
+
+When a user types a slash command, Discord will send an HTTP request to a given endpoint. During local development this can be a little challenging, so we're going to use a tool called `ngrok` to create an HTTP tunnel.
 
 ```
-Tunnel Status                 online
-Version                       2.0/2.0
-Web Interface                 http://127.0.0.1:4040
-Forwarding                    http://1234-someurl.ngrok.io -> localhost:3000
-Forwarding                    https://1234-someurl.ngrok.io -> localhost:3000
-
-Connections                  ttl     opn     rt1     rt5     p50     p90
-                              0       0       0.00    0.00    0.00    0.00
+$ npm run ngrok
 ```
 
-Copy the forwarding address that starts with `https`, in this case `https://1234-someurl.ngrok.io`, then go to your [app's settings](https://discord.com/developers/applications).
+![forwarding](https://user-images.githubusercontent.com/534619/157511497-19c8cef7-c349-40ec-a9d3-4bc0147909b0.png)
 
-On the **General Information** tab, there will be an **Interactions Endpoint URL**. Paste your ngrok address there, and append `/interactions` to it (`https://1234-someurl.ngrok.io/interactions` in the example).
+This is going to bounce requests off of an external endpoint, and forward them to your machine. Copy the HTTPS link provided by the tool. It should look something like `https://8098-24-22-245-250.ngrok.io`. Now head back to the Discord Developer Dashboard, and update the "Interactions Endpoint URL" for your bot:
 
-Click **Save Changes**, and your app should be ready to run 🚀
+![interactions-endpoint](https://user-images.githubusercontent.com/534619/157510959-6cf0327a-052a-432c-855b-c662824f15ce.png)
 
-## Other resources
-- Read **[the documentation](https://discord.com/developers/docs/intro)** for in-depth information about API features.
-- Browse the `examples/` folder in this project for smaller, feature-specific code examples
-- Join the **[Discord Developers server](https://discord.gg/discord-developers)** to ask questions about the API, attend events hosted by the Discord API team, and interact with other devs.
-- Check out **[community resources](https://discord.com/developers/docs/topics/community-resources#community-resources)** for language-specific tools maintained by community members.
+This is the process we'll use for local testing and development. When you've published your bot to Cloudflare, you will _want to update this field to use your Cloudflare Worker URL._
+
+## Deploying app
+
+This repository is set up to automatically deploy to Cloudflare Workers when new changes land on the `main` branch. To deploy manually, run `npm run publish`, which uses the `wrangler publish` command under the hood. Publishing via a GitHub Action requires obtaining an [API Token and your Account ID from Cloudflare](https://developers.cloudflare.com/workers/wrangler/cli-wrangler/authentication/#generate-tokens). These are stored [as secrets in the GitHub repository](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository), making them available to GitHub Actions. The following configuration in `.github/workflows/ci.yaml` demonstrates how to tie it all together:
+
+```yaml
+release:
+  if: github.ref == 'refs/heads/main'
+  runs-on: ubuntu-latest
+  needs: [test, lint]
+  steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: npm install
+    - run: npm run publish
+      env:
+        CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+```
+
+### Storing secrets
+
+The credentials in `.dev.vars` are only applied locally. The production service needs access to credentials from your app:
+
+```
+$ wrangler secret put DISCORD_TOKEN
+$ wrangler secret put DISCORD_PUBLIC_KEY
+$ wrangler secret put DISCORD_APPLICATION_ID
+```
+
+## Questions?
+
+Feel free to post an issue here, or reach out to [@justinbeckwith](https://twitter.com/JustinBeckwith)!

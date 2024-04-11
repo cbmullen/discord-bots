@@ -1,28 +1,39 @@
 {
-  "name": "getting-started",
+  "name": "pbem-helperbot",
   "version": "1.0.0",
-  "description": "Discord example app",
-  "main": "app.js",
+  "description": "A simple discord bot that uses intents to post pictures from r/pbem-helper",
   "type": "module",
-  "engines": {
-    "node": "16.x"
-  },
+  "private": true,
+  "main": "src/server.js",
   "scripts": {
-    "start": "node app.js",
-    "register": "node commands.js",
-    "tunnel": "ngrok http 3000",
-    "dev": "nodemon app.js"
+    "start": "node src/server.js",
+    "dev": "wrangler dev src/server.js",
+    "ngrok": "ngrok http 8787",
+    "test": "c8 mocha test",
+    "fix": "eslint --fix '**/*.js'",
+    "lint": "eslint '**/*.js'",
+    "register": "node src/register.js",
+    "publish": "wrangler deploy"
   },
-  "author": "Shay DeWael",
+  "keywords": [],
+  "author": "Justin Beckwith <justin.beckwith@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "discord-interactions": "^3.2.0",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "node-fetch": "^3.3.0",
-    "wrangler": "^3.48.0"
+    "discord-interactions": "^3.4.0",
+    "express": "^4.19.2",
+    "itty-router": "^4.0.13"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "c8": "^9.0.0",
+    "chai": "^5.0.0",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "mocha": "^10.2.0",
+    "ngrok": "^5.0.0-beta.2",
+    "prettier": "^3.0.1",
+    "sinon": "^17.0.0",
+    "wrangler": "^3.0.1"
   }
 }

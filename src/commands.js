@@ -1,8 +1,9 @@
-import 'dotenv/config';
-import { InstallGlobalCommands } from './utils.js';
+/**
+ * Share command metadata from a common spot to be used for both runtime
+ * and registration.
+ */
 
-// Simple PBEM command
-const PBEM_COMMAND = {
+export const PBEM_COMMAND = {
   name: 'pbem',
   description: 'Basic command',
   options: [
@@ -22,6 +23,3 @@ const PBEM_COMMAND = {
   type: 1,
 };
 
-const ALL_COMMANDS = [PBEM_COMMAND];
-
-InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);
