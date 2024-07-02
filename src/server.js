@@ -36,7 +36,6 @@ class JsonResponse extends Response {
 
 const router = Router();
 let orderedUserList = [];
-const dateTime = new Date().toDateString();
 
 /**
  * A simple :wave: hello page to verify the worker is working.
@@ -51,6 +50,8 @@ router.get('/', (request, env) => {
  * https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object
  */
 router.post('/', async (request, env) => {
+  const dateTime = new Date().toDateString();
+
   const { isValid, interaction } = await server.verifyDiscordRequest(
     request,
     env,
@@ -200,26 +201,24 @@ router.post('/', async (request, env) => {
       }
       else
       {
-        if (customObj.owner !== userId) {
-          return new JsonResponse(SendEphemeralMessage("That's not your button!"));
-        }
-
-        const buttonIndex = buttons.findIndex((button => button.custom_id.includes(userId)));
+        const buttonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(interaction.data.custom_id).owner)));
         const userButton = buttons[buttonIndex];
 
-        if (customObj.owner === userId) {
+        if (userButton.label.includes("Ready")) {
           userButton.label = userButton.label.replace("Ready", "Done");
           userButton.style = ButtonStyleTypes.SUCCESS;
-          userButton.disabled = true;
 
-          if (buttons.every(button => button.disabled === true))
+          if (buttons.every(button => button.label.includes("Done")))
           {
             for (let i = 0; i < buttons.length; i++) {
               buttons[i].label = buttons[i].label.replace("Done", "Ready");
               buttons[i].style = ButtonStyleTypes.PRIMARY;
-              buttons[i].disabled = false;  
             }
           }
+        }
+        if (userButton.label.includes("Done")) {
+          userButton.label = buttons[i].label.replace("Done", "Ready");
+          userButton.style = ButtonStyleTypes.PRIMARY;
         }
       }
       const alertMessage = CreateAlertMessage(buttons);
