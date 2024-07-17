@@ -70,6 +70,16 @@ export function SendMessage(message, components) {
   };
 }
 
+export function SendError(error) {
+  return {
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: `I died...${error}`,
+      components: []
+    },
+  };
+}
+
 export function UpdateMessage(interaction, alertContent) {
   const requestMessage = SplitMessage(interaction.message.content);
   const newMessage = `${requestMessage.message}\n${alertContent}`

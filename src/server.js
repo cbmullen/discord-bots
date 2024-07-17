@@ -16,7 +16,8 @@ import {
   SendButtons,
   UpdateMessage,
   SendUserSelectMessage,
-  SendUserOrderSelectMessage
+  SendUserOrderSelectMessage,
+  SendError
 } from "./interactions.js";
 import {
   SplitCustomId
@@ -126,7 +127,7 @@ router.post('/', async (request, env) => {
           return new JsonResponse(SendUserOrderSelectMessage("Select Player 1", customId, options))
         } 
         catch (error) {
-          console.log(`error: ${error}`)
+          return new JsonResponse(SendError(error))
         }
       }
 
@@ -161,7 +162,7 @@ router.post('/', async (request, env) => {
           return new JsonResponse(SendUserOrderSelectMessage(`Select Player ${orderedUserList.length + 1}`, interaction.data.custom_id, options))
         } 
         catch (error) {
-          console.log(`error: ${error}`)
+          return new JsonResponse(SendError(error))
         }
       } else {
         orderedUserList.push({
@@ -228,7 +229,7 @@ router.post('/', async (request, env) => {
         return new JsonResponse(UpdateMessage(interaction, alertMessage))
       } 
       catch (error) {
-        console.log(`error: ${error}`)
+        return new JsonResponse(SendError(error))
       }
     }
   }
@@ -305,7 +306,7 @@ async function CreateAndSendButtonsFromList(env, interaction, list, customObj) {
     return new JsonResponse(SendButtons(userButtons, message, alertContent))
   } 
   catch (error) {
-    console.log(`error: ${error}`)
+    return new JsonResponse(SendError(error))
   }
 }
 
