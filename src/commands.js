@@ -23,3 +23,17 @@ export const PBEM_COMMAND = {
   type: 1,
 };
 
+export const DICE_COMMAND = {
+  name: 'dice',
+  description: 'Roll a dice',
+  options: [
+    {
+      type: 4,
+      name: 'sides',
+      description: 'How many Sides?',
+      required: true,
+    },
+  ],
+  type: 1,
+};
+

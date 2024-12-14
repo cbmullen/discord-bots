@@ -10,7 +10,7 @@ import {
   verifyKey,
   ButtonStyleTypes
 } from 'discord-interactions';
-import { PBEM_COMMAND } from './commands.js';
+import { PBEM_COMMAND, DICE_COMMAND } from './commands.js';
 import {
   SendEphemeralMessage,
   SendButtons,
@@ -74,6 +74,11 @@ router.post('/', async (request, env) => {
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     // Most user commands will come as `APPLICATION_COMMAND`.
     switch (interaction.data.name.toLowerCase()) {
+      case DICE_COMMAND.name.toLocaleLowerCase():{
+        const sides = interaction.data.options[0].value;
+        const random = Math.floor((Math.random())*(sides-0+1))+0;
+        return new JsonResponse(SendEphemeralMessage(`You rolled a ${random}`))
+      }
       case PBEM_COMMAND.name.toLowerCase(): {
         const gameName = interaction.data.options[0].value;
         const isSequential = interaction.data.options[1].value;
