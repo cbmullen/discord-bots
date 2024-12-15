@@ -12,6 +12,7 @@
     "fix": "eslint --fix '**/*.js'",
     "lint": "eslint '**/*.js'",
     "register": "node src/register.js",
+    "debug": "wrangler dev --config wrangler-sbx.toml",
     "publish:prd": "wrangler deploy --config wrangler-prd.toml",
     "publish:sbx": "wrangler deploy --config wrangler-sbx.toml"
   },
