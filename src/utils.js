@@ -2,7 +2,7 @@ export function SplitCustomId(string){
   const words = string.split("_");
 
   const id = {
-    "owner": `${words[0]}`,
+    "uid": `${words[0]}`,
     "header": `${words[1]}`,
     "name": `${words[2]}`,
     "datetime": `${words[3]}`,

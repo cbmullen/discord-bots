@@ -86,12 +86,12 @@ export function UpdateMessage(interaction, alertContent) {
   return SendMessage(newMessage, interaction.message.components)
 }
 
-export function SendButtons(buttons, message, alertContent)
+export function SendButtons(buttons, content)
 {
   return {
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: `${message}\n${alertContent}`,
+      content: content,
       components: [
         {
           type: MessageComponentTypes.ACTION_ROW,

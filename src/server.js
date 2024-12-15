@@ -10,14 +10,15 @@ import {
   verifyKey,
   ButtonStyleTypes
 } from 'discord-interactions';
-import { PBEM_COMMAND, DICE_COMMAND } from './commands.js';
+import { PBEM_COMMAND, DICE_COMMAND, HAT_COMMAND } from './commands.js';
 import {
   SendEphemeralMessage,
   SendButtons,
   UpdateMessage,
   SendUserSelectMessage,
   SendUserOrderSelectMessage,
-  SendError
+  SendError,
+  SendMessage
 } from "./interactions.js";
 import {
   SplitCustomId
@@ -86,6 +87,14 @@ router.post('/', async (request, env) => {
         const customId = `DISCORD_NEWGAME_${gameName}_${dateTime}_${isSequential}`
         return new JsonResponse(SendUserSelectMessage(message, customId, 10));
       }
+      case HAT_COMMAND.name.toLowerCase(): {
+        const hatName = interaction.data.options[0].value;
+        const itemString = interaction.data.options[1].value;
+        const itemsToAdd = itemString.split(',').map(item => item.trim()).filter(item => item.length > 0);
+
+        const customId = `DISCORD_NEWHAT_${hatName}_${dateTime}_false`
+        return CreateAndSendGenericButtonsFromList(itemsToAdd, customId, true);
+      }
       default:
         return new JsonResponse({ error: 'Unknown Type' }, { status: 400 });
     }
@@ -97,6 +106,9 @@ router.post('/', async (request, env) => {
 
   if (interaction.type === InteractionType.MESSAGE_COMPONENT) {
     const customObj = SplitCustomId(interaction.data.custom_id);
+
+    //Who is interacting?
+    const user = interaction.member.user;
 
   /**
    * Create Users List - fire off buttons if no ordering required
@@ -137,7 +149,7 @@ router.post('/', async (request, env) => {
       }
 
       if (customObj.isSequential === "false") {
-        return CreateAndSendButtonsFromList(env, interaction, userList, customObj);
+        return CreateAndSendUserButtonsFromList(env, interaction, userList, customObj);
       }
     }
 
@@ -175,15 +187,53 @@ router.post('/', async (request, env) => {
           "username": options[0].label
         });
 
-        return CreateAndSendButtonsFromList(env, interaction, orderedUserList, customObj);
+        return CreateAndSendUserButtonsFromList(env, interaction, orderedUserList, customObj);
       }
     }
 
+
     /**
-   * Clicking a button
+   * Clicking a Generic button
    **/
-    // user who interacted
-    const userId = interaction.member.user.id;
+    if (customObj.header === "BUTTON") {
+      const buttons = interaction.message.components[0].components;
+      const buttonLabel = SplitCustomId(interaction.data.custom_id).uid;
+      const clickedButtonIndex = buttons.findIndex((button => button.custom_id.includes(buttonLabel)));
+      let clickedButton = buttons[clickedButtonIndex];
+
+      if (customObj.uid === "RANDOM") {
+        const availableButtons = buttons.filter(button => button.label.includes("(") == false && button.label.includes("Random") == false);
+        if (availableButtons.length == 0) {
+          return new JsonResponse(SendEphemeralMessage("No more items available to pick!"))
+        }
+        clickedButton = availableButtons[Math.floor(Math.random() * availableButtons.length)];
+        clickedButton.label = `${clickedButton.label} (${user.username})`
+        clickedButton.style = ButtonStyleTypes.SUCCESS;
+      } else {
+        // Process Non-random buttons
+        if (clickedButton.label.includes ("(")) {
+          clickedButton.label = `${buttonLabel}`;
+          clickedButton.style = ButtonStyleTypes.PRIMARY;
+        } else {
+          clickedButton.label = `${buttonLabel} (${user.username})`;
+          clickedButton.style = ButtonStyleTypes.SUCCESS;
+        }
+      }
+
+      try {
+        await DeleteMessage(env, interaction);
+        return new JsonResponse(SendButtons(buttons, "")) //TODO - Need to make everything use button Rows. 
+      } 
+      catch (error) {
+        return new JsonResponse(SendError(error))
+      }
+    }
+
+
+    /**
+   * Clicking a PBEM User button
+   **/
+
 
     if (customObj.header === "USERBUTTON") {
       const messageComponents = interaction.message.components
@@ -192,7 +242,7 @@ router.post('/', async (request, env) => {
 
       if (customObj.isSequential === "true")
       {
-        const clickedButtonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(interaction.data.custom_id).owner)));
+        const clickedButtonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(interaction.data.custom_id).uid)));
         const clickedButton = buttons[clickedButtonIndex];
 
         for (let i = 0; i < buttons.length; i++) {
@@ -207,7 +257,7 @@ router.post('/', async (request, env) => {
       }
       else
       {
-        const buttonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(interaction.data.custom_id).owner)));
+        const buttonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(interaction.data.custom_id).uid)));
         const userButton = buttons[buttonIndex];
 
         if (userButton.label.includes("Ready")) {
@@ -222,8 +272,8 @@ router.post('/', async (request, env) => {
             }
           }
         }
-        if (userButton.label.includes("Done")) {
-          userButton.label = buttons[i].label.replace("Done", "Ready");
+        else if (userButton.label.includes("Done")) {
+          userButton.label = userButton.label.replace("Done", "Ready");
           userButton.style = ButtonStyleTypes.PRIMARY;
         }
       }
@@ -278,10 +328,39 @@ export default server;
  *
  */
 
-  /**
+/**
  * Shared function for creating the buttons from a list
  **/
-async function CreateAndSendButtonsFromList(env, interaction, list, customObj) {
+async function CreateAndSendGenericButtonsFromList(list, customObj, includeRandom) {
+  // Map Users to Buttons from response.
+  const buttons = list.map(function (item) {
+    return {
+      type: MessageComponentTypes.BUTTON,
+      custom_id: `${item}_BUTTON_${customObj.name}_${customObj.dateTime}`,
+      label: `${item}`,
+      style: ButtonStyleTypes.PRIMARY,
+    };
+  });
+
+  if (includeRandom){
+  // Create a fixed "Random" button
+    buttons.push({
+      type: MessageComponentTypes.BUTTON, // Button type
+      custom_id: `RANDOM_BUTTON_${customObj.name}_${customObj.dateTime}`, // Custom ID for the Cancel button
+      label: 'Random', // Label on the Cancel button
+      style: ButtonStyleTypes.SECONDARY // Red button style for a "Cancel" button
+    });
+  }
+
+  try {
+    return new JsonResponse(SendButtons(buttons, ""))
+  } 
+  catch (error) {
+    return new JsonResponse(SendError(error))
+  }
+}
+
+async function CreateAndSendUserButtonsFromList(env, interaction, list, customObj) {
   // Map Users to Buttons from response.
   const userButtons = list.map(function (user) {
     return {
@@ -308,7 +387,7 @@ async function CreateAndSendButtonsFromList(env, interaction, list, customObj) {
 
   try {
     await DeleteMessage(env, interaction);
-    return new JsonResponse(SendButtons(userButtons, message, alertContent))
+    return new JsonResponse(SendButtons(userButtons, `${message}\n${alertContent}`))
   } 
   catch (error) {
     return new JsonResponse(SendError(error))
@@ -325,7 +404,7 @@ function CreateAlertMessage(buttons) {
   // Alert All ready users.
   for (let i = 0; i < buttons.length; i++) {
     if (buttons[i].label.includes("Ready")) {
-      const id = SplitCustomId(buttons[i].custom_id).owner;
+      const id = SplitCustomId(buttons[i].custom_id).uid;
       alertUsers.push(id)
     }
   }
