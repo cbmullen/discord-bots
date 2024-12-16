@@ -3,11 +3,8 @@ import {
     InteractionResponseFlags,
     MessageComponentTypes,
 } from "discord-interactions";
-import {
-  SplitMessage,
-} from "./utils.js";
 
-export function SendUserOrderSelectMessage(message, customId, options) {
+export function SendStringSelectMessage(message, customId, options) {
   return {
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
@@ -18,8 +15,8 @@ export function SendUserOrderSelectMessage(message, customId, options) {
           components: [
             {
               type: MessageComponentTypes.STRING_SELECT,
-              custom_id: `${customId}`,
-              options: options //Required to pass through state
+              custom_id: `${customId}`, //Required to pass through state
+              options: options 
             },
           ],
         },
@@ -71,19 +68,7 @@ export function SendMessage(message, components) {
 }
 
 export function SendError(error) {
-  return {
-    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-    data: {
-      content: `I died...${error}`,
-      components: []
-    },
-  };
-}
-
-export function UpdateMessage(interaction, alertContent) {
-  const requestMessage = SplitMessage(interaction.message.content);
-  const newMessage = `${requestMessage.message}\n${alertContent}`
-  return SendMessage(newMessage, interaction.message.components)
+  return SendMessage(`I died... ${error}`, [])
 }
 
 export function SendButtons(buttons, content)

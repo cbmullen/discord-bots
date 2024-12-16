@@ -1,10 +1,10 @@
 # Cloudflare worker example app
 
-## To update discord application with new commands <sandbox | production | legacy>
+## To update discord application with new module, registration is now done on a modular basis <sandbox | production | legacy>
 
 ```
 $ ./scripts/set-env.sh sandbox
-$ npm run register
+$ node ./src/modules/<moduleName>/registerCommand.js
 ```
 
 ## To update the worker on Wrangler <sbx | prd>
@@ -28,14 +28,21 @@ Below is a basic overview of the project structure (* = Git Ignored):
 
 ```
 ├── configuration*
-│   ├── sandbox                -> The .dev.vars for the sandbox application - required to register commands
-│   ├── production             -> The .dev.vars for the production application - required to register commands
+│   ├── sandbox                         -> The .dev.vars for the sandbox application - required to register commands
+│   ├── production                      -> The .dev.vars for the production application - required to register commands
 ├── scripts
-│   ├── set-env.sh            -> Updates the .dev.vars - required prior to registering new commands
+│   ├── set-env.sh                      -> Updates the .dev.vars - required prior to registering new commands
 ├── src
-│   ├── commands.js           -> JSON payloads for commands
-│   ├── register.js           -> Sets up commands with the Discord API
-│   ├── server.js             -> Discord app logic and routing
+│   ├──| modules                        -> Module Directory
+│      ├──| Module A 
+│         ├── app.js                    -> Logic that can sit outside of the handlers
+│         ├── interactionHandler.js     -> Any interactions through the module have their logic here, additional button presses etc
+│         ├── registerCommand.js        -> Register your module command with discord in order for it to work. See above.
+│         ├── routing.js                -> The server uses this to determine which function is being called
+│         ├── slashCommandHandler.js    -> The initial slash command logic goes here
+│   ├── server.js                       -> Entry point for all discord apps. Does security checking and routing of interactions
+│   ├── interactions.js                 -> Shared interaction response models
+│   ├── utils.js                        -> May get moved.
 ├── wrangler-sbx.toml*        -> Configuration for Cloudflare worker (Sandbox)
 ├── wrangler-prd.toml*        -> Configuration for Cloudflare worker (Production)
 ├── package.json
