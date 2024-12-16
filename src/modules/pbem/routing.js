@@ -1,5 +1,5 @@
 import { handleSlashCommand } from './slashCommandHandler.js';
-import { handlePlayerSorting, handlePlayerSelectSequential, handlePlayerSelectSimultaneous, handleButtonClicking } from './interactionHandler.js';
+import { handlePlayerSorting, handlePlayerSelectConsecutive, handlePlayerSelectSimultaneous, handleButtonClicking } from './interactionHandler.js';
 import { SplitCustomId } from './utils.js';
 
 export async function routePBEM(env, interaction, dateTime) {
@@ -11,10 +11,10 @@ export async function routePBEM(env, interaction, dateTime) {
   if (interaction.data.name === "pbem") {
     return handleSlashCommand(interaction, dateTime);
   }
-  else if (customObj.header === "NEWGAME" && customObj.isSequential === "true") {
-    return handlePlayerSelectSequential(env, interaction, customObj, dateTime)
+  else if (customObj.header === "NEWGAME" && customObj.isConsecutive === "true") {
+    return handlePlayerSelectConsecutive(env, interaction, customObj, dateTime)
   }
-  else if (customObj.header === "NEWGAME" && customObj.isSequential === "false") {
+  else if (customObj.header === "NEWGAME" && customObj.isConsecutive === "false") {
     return handlePlayerSelectSimultaneous(env, interaction, customObj)
   }
   else if (customObj.header === "PLAYERSORTING") {

@@ -25,8 +25,8 @@ const body = {
     },
     {
       type: 5,
-      name: 'issequential',
-      description: 'Clicking done alerts the next person in the game',
+      name: 'isconsecutive',
+      description: 'Are the turns resolved consecutively or simultaneously?',
       required: true,
     },
   ],

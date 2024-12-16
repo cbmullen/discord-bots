@@ -5,14 +5,14 @@ import { DeleteMessage } from "../../discord-api";
 
 let orderedUserList = []
 
-export async function handlePlayerSelectSequential(env, interaction, customObj, dateTime) {
+export async function handlePlayerSelectConsecutive(env, interaction, customObj, dateTime) {
   const selectedUsersList = GetSelectedUsers(interaction)
 
   /**
   * We need to order the results by firing off another new event Header. 
   * That event will call itself until No users remain. Then it will call create buttons
   **/
-  const customId = `$DISCORD_PLAYERSORTING_${customObj.name}_${dateTime}_${customObj.isSequential}`
+  const customId = `$DISCORD_PLAYERSORTING_${customObj.name}_${dateTime}_${customObj.isConsecutive}`
   const options = selectedUsersList.map(function (user) {
     return {
       label: `${user.username}`,
@@ -79,7 +79,7 @@ export async function handleButtonClicking(env, interaction, customObj) {
   //Find the right button and update it //TODO Only works up to 5!
   const buttons = messageComponents[0].components;
 
-  if (customObj.isSequential === "true")
+  if (customObj.isConsecutive === "true")
   {
     const clickedButtonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(interaction.data.custom_id).uid)));
     const clickedButton = buttons[clickedButtonIndex];
@@ -136,13 +136,13 @@ async function CreateAndSendUserButtonsFromList(env, interaction, list, customOb
   const userButtons = list.map(function (user) {
     return {
       type: MessageComponentTypes.BUTTON,
-      custom_id: `${user.id}_USERBUTTON_${customObj.name}_${customObj.dateTime}_${customObj.isSequential}`,
+      custom_id: `${user.id}_USERBUTTON_${customObj.name}_${customObj.dateTime}_${customObj.isConsecutive}`,
       label: `${user.username}: Ready`,
       style: ButtonStyleTypes.PRIMARY,
     };
   });
 
-  if (customObj.isSequential === "true") { // Enable all but the current user
+  if (customObj.isConsecutive === "true") { // Enable all but the current user
     userButtons[0].disabled = true;
 
     for (let i = 1; i < userButtons.length; i++) {
