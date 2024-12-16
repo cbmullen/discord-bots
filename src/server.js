@@ -43,6 +43,7 @@ router.post('/', async (request, env) => {
   }
 
   // Route the other Interactions via their module. The router returns null if it's the wrong module. Pass env if you want to delete stuff!
+  // Bear in mind, each router has to take into account what may be passed lower. See hat routing when dice has no custom_id
   let response = null;
   if (response === null) { response = await routePBEM(env, interaction, dateTime)}
   if (response === null) { response = await routeHat(env, interaction)}

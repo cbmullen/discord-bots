@@ -1,5 +1,5 @@
 name = "sbx"
-main = "./src/server-v2.js"
+main = "./src/server.js"
 compatibility_date = "2024-12-05"
 account_id = "e5cf1223aa9b5d7cfdbb3422bd378b41"
 #workers_dev = true
