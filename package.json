@@ -11,6 +11,8 @@
     "test": "c8 mocha test",
     "fix": "eslint --fix '**/*.js'",
     "lint": "eslint '**/*.js'",
+    "getCommands": "node src/commandManager/getCommands.js",
+    "deleteCommand": "node src/commandManager/deleteCommand.js",
     "register": "node src/register.js",
     "debug": "wrangler dev --config wrangler-sbx.toml",
     "publish:prd": "wrangler deploy --config wrangler-prd.toml",

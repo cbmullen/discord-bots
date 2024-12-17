@@ -25,6 +25,25 @@ $ wrangler secret put DISCORD_APPLICATION_ID --name sbx
 ```
 ---
 
+## Removing registered commands
+
+Don't add ones you don't want. It's annoying.
+But if you have, run the following
+
+```
+$ ./scripts/set-env.sh sandbox
+$ npm run getCommands
+```
+Update the deleteCommmand.js `commandId` property and run
+
+```
+$ npm run deleteCommand
+```
+Then re-add the application for good measure
+Go onto the [developer applications](https://discord.com/developers/application) website find the application, OAUTH2.
+In the URL generator add scopes `bot` and `applicatons.commands`. Add permissons `Send Messages` and `Use slash commands` (reactions to come later maybe)
+Copy the URL into a browser and add the application
+
 ## Project structure
 
 Below is a basic overview of the project structure (* = Git Ignored):
