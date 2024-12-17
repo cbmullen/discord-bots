@@ -8,6 +8,7 @@ import { routeHat } from './modules/hat/routing';
 import { routeDice } from './modules/dice/routing';
 import { routePBEM } from './modules/pbem/routing';
 import { routeCoin } from './modules/cointoss/routing';
+import { routeMagic8Ball } from './modules/magic8ball/routing';
 
 const router = Router();
 
@@ -50,6 +51,7 @@ router.post('/', async (request, env) => {
   if (response === null) { response = await routeHat(env, interaction)}
   if (response === null) { response = await routeDice(interaction)}
   if (response === null) { response = await routeCoin(interaction)}
+  if (response === null) { response = await routeMagic8Ball(interaction)}
   return response
 });
 
