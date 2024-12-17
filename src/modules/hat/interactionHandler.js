@@ -50,3 +50,7 @@ export async function handleRandomButtonClick(env, interaction) {
     return new Response(JSON.stringify(SendError(error)), { headers: { 'Content-Type': 'application/json' }})
   }
 }
+
+export async function handleCloseButtonClick(env, interaction) {
+  await DeleteMessage(env, interaction);
+}

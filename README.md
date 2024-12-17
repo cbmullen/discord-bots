@@ -6,6 +6,9 @@
 $ ./scripts/set-env.sh sandbox
 $ node ./src/modules/<moduleName>/registerCommand.js
 ```
+Then go onto the [developer applications](https://discord.com/developers/application) website find the application, OAUTH2.
+In the URL generator add scopes `bot` and `applicatons.commands`. Add permissons `Send Messages` and `Use slash commands` (reactions to come later maybe)
+Copy the URL into a browser and add the application
 
 ## To update the worker on Wrangler <sbx | prd>
 

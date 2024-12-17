@@ -7,6 +7,7 @@ import { Router } from 'itty-router';
 import { routeHat } from './modules/hat/routing';
 import { routeDice } from './modules/dice/routing';
 import { routePBEM } from './modules/pbem/routing';
+import { routeCoin } from './modules/cointoss/routing';
 
 const router = Router();
 
@@ -29,7 +30,6 @@ router.post('/', async (request, env) => {
     env,
   );
   if (!isValid || !interaction) {
-    console.log("???")
     return new Response('Bad request signature.', { status: 401 });
   }
 
@@ -49,6 +49,7 @@ router.post('/', async (request, env) => {
   if (response === null) { response = await routePBEM(env, interaction, dateTime)}
   if (response === null) { response = await routeHat(env, interaction)}
   if (response === null) { response = await routeDice(interaction)}
+  if (response === null) { response = await routeCoin(interaction)}
   return response
 });
 

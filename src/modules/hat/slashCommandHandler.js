@@ -30,6 +30,13 @@ export function handleSlashCommand(interaction) {
     style: ButtonStyleTypes.SECONDARY
   });
 
+  buttons.push({
+    type: MessageComponentTypes.BUTTON,
+    custom_id: `CLOSE_HATBUTTON_${hatName}`,
+    label: 'Close',
+    style: ButtonStyleTypes.DANGER
+  });
+
   return new Response(JSON.stringify(SendActionRowComponents(buttons, "")), {
     headers: { 'Content-Type': 'application/json' },
   });
