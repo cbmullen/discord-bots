@@ -20,7 +20,7 @@ export async function routePBEM(env, interaction, dateTime) {
   else if (customObj.header === "PLAYERSORTING") {
     return handlePlayerSorting(env, interaction, customObj)
   }
-  else if (customObj.header === "USERBUTTON") {
+  else if (customObj.header === "PBEMBUTTON") {
     return handleButtonClicking(env, interaction, customObj)
   }
   return null

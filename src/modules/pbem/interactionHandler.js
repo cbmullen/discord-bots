@@ -133,7 +133,7 @@ async function CreateAndSendUserButtonsFromList(env, interaction, list, customOb
   const userButtons = list.map(function (user) {
     return {
       type: MessageComponentTypes.BUTTON,
-      custom_id: `${user.id}_USERBUTTON_${customObj.name}_${customObj.dateTime}_${customObj.isConsecutive}`,
+      custom_id: `${user.id}_PBEMBUTTON_${customObj.name}_${customObj.dateTime}_${customObj.isConsecutive}`,
       label: `${user.username}: Ready`,
       style: ButtonStyleTypes.PRIMARY,
     };
