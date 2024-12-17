@@ -29,6 +29,7 @@ router.post('/', async (request, env) => {
     env,
   );
   if (!isValid || !interaction) {
+    console.log("???")
     return new Response('Bad request signature.', { status: 401 });
   }
 

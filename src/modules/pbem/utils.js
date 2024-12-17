@@ -24,7 +24,6 @@ export function SplitCustomId(string){
   export function GetSelectedUsers(interaction){
     const userList = [];
     const keys = Object.keys(interaction.data.resolved.users);
-    // console.log(keys);
     keys.forEach((key) => {
       userList.push({
         "id": interaction.data.resolved.users[key].id,

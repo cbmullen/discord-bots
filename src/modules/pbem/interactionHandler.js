@@ -1,5 +1,5 @@
 import { MessageComponentTypes, ButtonStyleTypes } from "discord-interactions";
-import { SendButtons, SendStringSelectMessage, SendMessage } from "../../interactionResponse";
+import { SendActionRowComponents, SendStringSelectMessage, SendMessage, flattenActionRowComponents } from "../../interactionResponse";
 import { GetSelectedUsers, SplitCustomId, SplitMessage } from "./utils";
 import { DeleteMessage } from "../../discord-api";
 
@@ -38,7 +38,7 @@ export async function handlePlayerSelectSimultaneous(env, interaction, customObj
   return CreateAndSendUserButtonsFromList(env, interaction, selectedUsersList, customObj);
 }
 
-export async function handlePlayerSorting(env, interaction, customObj) {
+export async function handlePlayerSorting(env, interaction, customObj) { 
   const selectedUser = interaction.data.values[0];
   const selectedUserName = interaction.message.components[0].components[0].options.find(user => user.value === selectedUser).label;
 
@@ -47,8 +47,6 @@ export async function handlePlayerSorting(env, interaction, customObj) {
     "id": selectedUser,
     "username": selectedUserName
   });
-
-  console.log(orderedUserList)
 
   //Take out the previously selectedUser from the selection
   const options = interaction.message.components[0].components[0].options.filter(item => item.value !== selectedUser)
@@ -75,13 +73,13 @@ export async function handlePlayerSorting(env, interaction, customObj) {
 }
 
 export async function handleButtonClicking(env, interaction, customObj) {
-  const messageComponents = interaction.message.components
-  //Find the right button and update it //TODO Only works up to 5!
-  const buttons = messageComponents[0].components;
+    const clickedButtonId = interaction.data.custom_id; // Which button did they click?
+  
+    const buttons = flattenActionRowComponents(interaction); // Get all the buttons
+    const clickedButtonIndex = buttons.findIndex(button => button.custom_id === clickedButtonId);
 
   if (customObj.isConsecutive === "true")
   {
-    const clickedButtonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(interaction.data.custom_id).uid)));
     const clickedButton = buttons[clickedButtonIndex];
 
     for (let i = 0; i < buttons.length; i++) {
@@ -96,8 +94,7 @@ export async function handleButtonClicking(env, interaction, customObj) {
   }
   else
   {
-    const buttonIndex = buttons.findIndex((button => button.custom_id.includes(SplitCustomId(interaction.data.custom_id).uid)));
-    const userButton = buttons[buttonIndex];
+    const userButton = buttons[clickedButtonIndex];
 
     if (userButton.label.includes("Ready")) {
       userButton.label = userButton.label.replace("Ready", "Done");
@@ -155,7 +152,7 @@ async function CreateAndSendUserButtonsFromList(env, interaction, list, customOb
   const message = `Playing: ${customObj.name}. (Started at: ${customObj.datetime}).`
   const alertContent = CreateAlertMessage(userButtons);
 
-  let response = SendButtons(userButtons, `${message}\n${alertContent}`);
+  let response = SendActionRowComponents(userButtons, `${message}\n${alertContent}`);
 
   try {
     await DeleteMessage(env, interaction);

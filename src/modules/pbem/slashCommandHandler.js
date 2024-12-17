@@ -8,7 +8,7 @@ export function handleSlashCommand(interaction, dateTime) {
   const message = `Choose players for a new game of ${gameName}`
   const customId = `DISCORD_NEWGAME_${gameName}_${dateTime}_${isConsecutive}`
 
-  const response = SendUserSelectMessage(message, customId, 10)
+  const response = SendUserSelectMessage(message, customId)
 
   return new Response(JSON.stringify(response), {
     headers: { 'Content-Type': 'application/json' },
