@@ -15,8 +15,8 @@
     "deleteCommand": "node src/commandManager/deleteCommand.js",
     "register": "node src/register.js",
     "debug": "wrangler dev --config wrangler-sbx.toml",
-    "publish:prd": "wrangler deploy --config wrangler-prd.toml",
-    "publish:sbx": "wrangler deploy --config wrangler-sbx.toml",
+    "deploy:prd": "wrangler deploy --config wrangler-prd.toml",
+    "deploy:sbx": "wrangler deploy --config wrangler-sbx.toml",
     "prepare": "husky"
   },
   "keywords": [],
