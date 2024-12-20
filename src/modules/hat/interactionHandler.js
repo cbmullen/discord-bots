@@ -45,10 +45,7 @@ export async function handleRandomButtonClick(env, interaction) {
       button.label.includes('Random') == false,
   );
   if (availableButtons.length == 0) {
-    return new Response(
-      JSON.stringify(SendEphemeralMessage('No more items available to pick!')),
-      { headers: { 'Content-Type': 'application/json' } },
-    );
+    return SendEphemeralMessage('No more items available to pick!');
   }
   const clickedButton =
     availableButtons[Math.floor(Math.random() * availableButtons.length)]; //Select a button from available.
@@ -62,8 +59,4 @@ export async function handleRandomButtonClick(env, interaction) {
   } catch (error) {
     return SendError(error);
   }
-}
-
-export async function handleCloseButtonClick(env, interaction) {
-  await DeleteMessage(env, interaction);
 }

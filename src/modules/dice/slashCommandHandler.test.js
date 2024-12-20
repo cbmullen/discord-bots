@@ -7,26 +7,28 @@ import {
 
 global.fetch = jest.fn();
 
-describe('Magic8Ball Slash Handler', () => {
+describe('Dice Slash Handler', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   afterEach(() => {
     Math.random.mockRestore();
+    jest.clearAllMocks();
   });
 
-  it('should handle /magic8ball correctly', async () => {
+  it('should handle /dice correctly', async () => {
     jest.spyOn(Math, 'random').mockReturnValue(0.5);
+
     const interaction = {
       type: InteractionType.App,
       data: {
-        name: 'magic8ball',
+        name: 'dice',
         options: [
           {
-            name: 'question',
-            type: 3,
-            value: 'Am I going to watch firefly later',
+            name: 'sides',
+            type: 4,
+            value: 5,
           },
         ],
       },
@@ -40,8 +42,6 @@ describe('Magic8Ball Slash Handler', () => {
       InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     );
     expect(response.data.flags).toEqual(InteractionResponseFlags.EPHEMERAL);
-    expect(response.data.content).toContain(
-      '_Am I going to watch firefly later_ ... **Yes definitely**',
-    );
+    expect(response.data.content).toContain('You rolled a 3');
   });
 });

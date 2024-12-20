@@ -5,6 +5,9 @@ describe('Cointoss Slash Handler', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should handle /cointoss correctly', async () => {
     const interaction = {

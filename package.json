@@ -8,11 +8,12 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "wrangler dev src/server.js",
-    "test": "c8 mocha test",
+    "test": "jest",
     "fix": "eslint --fix **/*.js",
     "lint": "eslint **/*.js",
     "getCommands": "node src/commandManager/getCommands.js",
     "deleteCommand": "node src/commandManager/deleteCommand.js",
+    "prettier": "prettier --write --ignore-unknown",
     "register": "node src/register.js",
     "debug": "wrangler dev --config wrangler-sbx.toml",
     "deploy:prd": "wrangler deploy --config wrangler-prd.toml",
