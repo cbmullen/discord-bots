@@ -6,6 +6,7 @@
 $ ./scripts/set-env.sh sandbox
 $ node ./src/modules/<moduleName>/registerCommand.js
 ```
+
 Then go onto the [developer applications](https://discord.com/developers/application) website find the application, OAUTH2.
 In the URL generator add scopes `bot` and `applications.commands`. Add permissions `Send Messages` and `Use slash commands` (reactions to come later maybe)
 Copy the URL into a browser and add the application
@@ -23,6 +24,7 @@ $ wrangler secret put DISCORD_TOKEN --name sbx
 $ wrangler secret put DISCORD_PUBLIC_KEY --name sbx
 $ wrangler secret put DISCORD_APPLICATION_ID --name sbx
 ```
+
 ---
 
 ## Removing registered commands
@@ -34,11 +36,13 @@ But if you have, run the following
 $ ./scripts/set-env.sh sandbox
 $ npm run getCommands
 ```
+
 Update the deleteCommmand.js `commandId` property and run
 
 ```
 $ npm run deleteCommand
 ```
+
 Then re-add the application for good measure
 Go onto the [developer applications](https://discord.com/developers/application) website find the application, OAUTH2.
 In the URL generator add scopes `bot` and `applicatons.commands`. Add permissons `Send Messages`, `embed links`, `Add reactions` and `Use slash commands` (reactions to come later maybe)
@@ -46,7 +50,7 @@ Copy the URL into a browser and add the application
 
 ## Project structure
 
-Below is a basic overview of the project structure (* = Git Ignored):
+Below is a basic overview of the project structure (\* = Git Ignored):
 
 ```
 ├── configuration*
@@ -56,7 +60,7 @@ Below is a basic overview of the project structure (* = Git Ignored):
 │   ├── set-env.sh                      -> Updates the .dev.vars - required prior to registering new commands
 ├── src
 │   ├──| modules                        -> Module Directory
-│      ├──| Module A 
+│      ├──| Module A
 │         ├── app.js                    -> Logic that can sit outside of the handlers
 │         ├── interactionHandler.js     -> Any interactions through the module have their logic here, additional button presses etc
 │         ├── registerCommand.js        -> Register your module command with discord in order for it to work. See above.
