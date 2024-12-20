@@ -13,13 +13,16 @@ dotenv.config({ path: '.dev.vars' });
 const token = process.env.DISCORD_TOKEN;
 const applicationId = process.env.DISCORD_APPLICATION_ID;
 
-const res = await fetch(`https://discord.com/api/v10/applications/${applicationId}/commands`, {
-  method: "GET",
-  headers: {
-    "Authorization": `Bot ${token}`,
-    "Content-Type": "application/json",
-  }
-});
+const res = await fetch(
+  `https://discord.com/api/v10/applications/${applicationId}/commands`,
+  {
+    method: 'GET',
+    headers: {
+      Authorization: `Bot ${token}`,
+      'Content-Type': 'application/json',
+    },
+  },
+);
 
 const json = await res.json();
 console.log(json);

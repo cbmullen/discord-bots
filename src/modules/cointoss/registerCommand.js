@@ -24,14 +24,17 @@ const coinTossBody = {
   type: 1,
 };
 
-const coinToss = await fetch(`https://discord.com/api/v10/applications/${applicationId}/commands`, {
-  method: "POST",
-  headers: {
-    "Authorization": `Bot ${token}`,
-    "Content-Type": "application/json",
+const coinToss = await fetch(
+  `https://discord.com/api/v10/applications/${applicationId}/commands`,
+  {
+    method: 'POST',
+    headers: {
+      Authorization: `Bot ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(coinTossBody),
   },
-  body: JSON.stringify(coinTossBody),
-});
+);
 
 const toss = await coinToss.json();
 console.log(toss);
@@ -46,14 +49,17 @@ const coinFlipBody = {
   type: 1,
 };
 
-const coinFlip = await fetch(`https://discord.com/api/v10/applications/${applicationId}/commands`, {
-  method: "POST",
-  headers: {
-    "Authorization": `Bot ${token}`,
-    "Content-Type": "application/json",
+const coinFlip = await fetch(
+  `https://discord.com/api/v10/applications/${applicationId}/commands`,
+  {
+    method: 'POST',
+    headers: {
+      Authorization: `Bot ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(coinFlipBody),
   },
-  body: JSON.stringify(coinFlipBody),
-});
+);
 
 const flip = await coinFlip.json();
 console.log(flip);

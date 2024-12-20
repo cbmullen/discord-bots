@@ -27,14 +27,17 @@ const body = {
   type: 1,
 };
 
-const res = await fetch(`https://discord.com/api/v10/applications/${applicationId}/commands`, {
-  method: "POST",
-  headers: {
-    "Authorization": `Bot ${token}`,
-    "Content-Type": "application/json",
+const res = await fetch(
+  `https://discord.com/api/v10/applications/${applicationId}/commands`,
+  {
+    method: 'POST',
+    headers: {
+      Authorization: `Bot ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
   },
-  body: JSON.stringify(body),
-});
+);
 
 const json = await res.json();
 console.log(json);

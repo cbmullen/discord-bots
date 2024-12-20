@@ -12,12 +12,15 @@ dotenv.config({ path: '.dev.vars' });
 
 const token = process.env.DISCORD_TOKEN;
 const applicationId = process.env.DISCORD_APPLICATION_ID;
-const commandId = "_placeholder_"
+const commandId = '_placeholder_';
 
-const res = await fetch(`https://discord.com/api/v10/applications/${applicationId}/commands/${commandId}`, {
-  method: "DELETE",
-  headers: {
-    "Authorization": `Bot ${token}`,
-    "Content-Type": "application/json",
-  }
-});
+await fetch(
+  `https://discord.com/api/v10/applications/${applicationId}/commands/${commandId}`,
+  {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bot ${token}`,
+      'Content-Type': 'application/json',
+    },
+  },
+);

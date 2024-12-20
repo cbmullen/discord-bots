@@ -7,7 +7,7 @@ async function DiscordRequest(env, endpoint, options) {
       'Content-Type': 'application/json',
       Authorization: `Bot ${env.DISCORD_TOKEN}`,
     },
-    ...options
+    ...options,
   });
   // throw API errors
   if (!res.ok) {
