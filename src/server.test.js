@@ -10,6 +10,8 @@ describe('Discord Interaction Handler', () => {
     fetch.mockClear();
   });
 
+  //TODO: Mock out the Response object, make sure it's being called!
+
   it('should respond with type 1 when Discord sends a ping', async () => {
     // Simulate a Discord "ping" interaction (type 1)
     const interaction = {

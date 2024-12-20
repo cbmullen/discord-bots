@@ -1,15 +1,12 @@
-// server.test.js
 import { handleRequest } from '../../server';
 import { InteractionType, InteractionResponseType } from 'discord-interactions';
 
 describe('Cointoss Slash Handler', () => {
   beforeEach(() => {
-    // Clear any mock calls before each test
     jest.clearAllMocks();
   });
 
   it('should handle /cointoss correctly', async () => {
-    // Simulate a Discord interaction for the /ping command
     const interaction = {
       type: InteractionType.App,
       data: {
@@ -37,7 +34,6 @@ describe('Cointoss Slash Handler', () => {
   });
 
   it('should handle /coinflip correctly', async () => {
-    // Simulate a Discord interaction for the /ping command
     const interaction = {
       type: InteractionType.App,
       data: {
