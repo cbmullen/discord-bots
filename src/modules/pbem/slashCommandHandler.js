@@ -9,8 +9,5 @@ export function handleSlashCommand(interaction, dateTime) {
   const customId = `DISCORD_NEWGAME_${gameName}_${dateTime}_${isConsecutive}`;
 
   const response = SendUserSelectMessage(message, customId);
-
-  return new Response(JSON.stringify(response), {
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return response;
 }

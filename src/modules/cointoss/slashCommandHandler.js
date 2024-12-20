@@ -13,12 +13,5 @@ export function handleSlashCommand(interaction) {
   if (interaction.data.name === 'coinflip') verb = 'flipped';
 
   const user = interaction.member.user.username;
-  const response = SendMessage(
-    `${user} ${verb} a coin and it landed on ${result}!`,
-    [],
-  );
-
-  return new Response(JSON.stringify(response), {
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return SendMessage(`${user} ${verb} a coin and it landed on ${result}!`, []);
 }

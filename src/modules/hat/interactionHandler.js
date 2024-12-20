@@ -29,13 +29,9 @@ export async function handleItemButtonClick(env, interaction) {
 
   try {
     await DeleteMessage(env, interaction);
-    return new Response(JSON.stringify(SendActionRowComponents(buttons, '')), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return SendActionRowComponents(buttons, '');
   } catch (error) {
-    return new Response(JSON.stringify(SendError(error)), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return SendError(error);
   }
 }
 
@@ -62,13 +58,9 @@ export async function handleRandomButtonClick(env, interaction) {
 
   try {
     await DeleteMessage(env, interaction);
-    return new Response(JSON.stringify(SendActionRowComponents(buttons, '')), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return SendActionRowComponents(buttons, '');
   } catch (error) {
-    return new Response(JSON.stringify(SendError(error)), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return SendError(error);
   }
 }
 

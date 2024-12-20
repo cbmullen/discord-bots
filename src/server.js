@@ -32,8 +32,13 @@ router.post('/', async (request, env) => {
     return new Response('Bad request signature.', { status: 401 });
   }
 
-  // Handle the request
-  return await handleRequest(interaction, env);
+  console.log(interaction);
+  // Unit Test this.
+  const response = await handleRequest(interaction, env);
+
+  return new Response(JSON.stringify(response), {
+    headers: { 'Content-Type': 'application/json' },
+  });
 });
 
 // Catch anything not caught by interactions.
@@ -51,9 +56,7 @@ export async function handleRequest(interaction, env) {
     const response = {
       type: InteractionResponseType.PONG,
     };
-    return new Response(JSON.stringify(response), {
-      headers: { 'content-type': 'application/json;charset=UTF-8' },
-    });
+    return response;
   }
 
   // Route the other Interactions via their module. The router returns null if it's the wrong module. Pass env if you want to delete stuff!
@@ -66,13 +69,13 @@ export async function handleRequest(interaction, env) {
     response = await routeHat(env, interaction);
   }
   if (response === null) {
-    response = await routeDice(interaction);
+    response = routeDice(interaction);
   }
   if (response === null) {
-    response = await routeCoin(interaction);
+    response = routeCoin(interaction);
   }
   if (response === null) {
-    response = await routeMagic8Ball(interaction);
+    response = routeMagic8Ball(interaction);
   }
   return response;
 }

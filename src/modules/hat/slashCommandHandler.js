@@ -49,7 +49,5 @@ export function handleSlashCommand(interaction) {
     style: ButtonStyleTypes.DANGER,
   });
 
-  return new Response(JSON.stringify(SendActionRowComponents(buttons, '')), {
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return SendActionRowComponents(buttons, '');
 }

@@ -36,14 +36,10 @@ export async function handlePlayerSelectConsecutive(
 
   try {
     await DeleteMessage(env, interaction);
-    return new Response(JSON.stringify(response), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return response;
   } catch (error) {
     response = SendError(error);
-    return new Response(JSON.stringify(response), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return response;
   }
 }
 
@@ -88,14 +84,10 @@ export async function handlePlayerSorting(env, interaction, customObj) {
   if (options.length > 1) {
     try {
       await DeleteMessage(env, interaction);
-      return new Response(JSON.stringify(response), {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return response;
     } catch (error) {
       response = SendError(error);
-      return new Response(JSON.stringify(response), {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return response;
     }
   } else {
     orderedUserList.push({
@@ -155,14 +147,10 @@ export async function handleButtonClicking(env, interaction, customObj) {
 
   try {
     await DeleteMessage(env, interaction);
-    return new Response(JSON.stringify(response), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return response;
   } catch (error) {
     response = SendError(error);
-    return new Response(JSON.stringify(response), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return response;
   }
 }
 
@@ -205,14 +193,10 @@ async function CreateAndSendUserButtonsFromList(
 
   try {
     await DeleteMessage(env, interaction);
-    return new Response(JSON.stringify(response), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return response;
   } catch (error) {
     response = SendError(error);
-    return new Response(JSON.stringify(response), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return response;
   }
 }
 

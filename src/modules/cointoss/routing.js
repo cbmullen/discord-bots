@@ -1,6 +1,6 @@
 import { handleSlashCommand } from './slashCommandHandler.js';
 
-export async function routeCoin(interaction) {
+export function routeCoin(interaction) {
   if (
     interaction.data.name === 'cointoss' ||
     interaction.data.name === 'coinflip'

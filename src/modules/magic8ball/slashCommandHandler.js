@@ -31,10 +31,5 @@ export function handleSlashCommand(interaction) {
   const randomIndex = Math.floor(Math.random() * responses.length);
   const response = responses[randomIndex];
 
-  return new Response(
-    JSON.stringify(SendEphemeralMessage(`_${question}_ ... **${response}**`)),
-    {
-      headers: { 'Content-Type': 'application/json' },
-    },
-  );
+  return SendEphemeralMessage(`_${question}_ ... **${response}**`);
 }

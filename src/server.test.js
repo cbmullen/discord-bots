@@ -19,10 +19,7 @@ describe('Discord Interaction Handler', () => {
     const env = {};
 
     const response = await handleRequest(interaction, env);
-    const responseJson = await response.json();
-
-    expect(responseJson).toEqual({ type: 1 });
-    expect(response.status).toBe(200); // 200 OK
+    expect(response).toEqual({ type: 1 });
   });
 
   it('should respond with a Pong! message when /ping command is invoked', async () => {
@@ -38,26 +35,7 @@ describe('Discord Interaction Handler', () => {
 
     const env = {};
 
-    // Mock the fetch call to simulate Discord's response
-    fetch.mockResolvedValueOnce(
-      new Response(
-        JSON.stringify({
-          type: 4,
-          data: {
-            content: 'Pong!',
-          },
-        }),
-      ),
-    );
-
     const response = await handleRequest(interaction, env);
-    const responseJson = await response.json();
-
-    // Expect the Discord interaction to respond with Pong!
-    expect(responseJson).toEqual({
-      type: 1,
-    });
-
-    expect(response.status).toBe(200); // 200 OK
+    expect(response).toEqual({ type: 1 });
   });
 });
