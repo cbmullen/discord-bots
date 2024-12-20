@@ -13,7 +13,7 @@ import { routeMagic8Ball } from './modules/magic8ball/routing';
 const router = Router();
 
 /**
- * A simple :wave: hello page to verify the worker is working.
+ * Routing
  */
 router.get('/', (request, env) => {
   return new Response(`👋 ${env.DISCORD_APPLICATION_ID}`);
@@ -23,9 +23,7 @@ router.get('/', (request, env) => {
  * All Interactions come in as posts. This validates the post then spits out the interaction object.
  */
 router.post('/', async (request, env) => {
-  const dateTime = new Date().toDateString();
-
-  //security
+  // Run verification First.
   const { isValid, interaction } = await server.verifyDiscordRequest(
     request,
     env,
@@ -33,6 +31,20 @@ router.post('/', async (request, env) => {
   if (!isValid || !interaction) {
     return new Response('Bad request signature.', { status: 401 });
   }
+
+  // Handle the request
+  return await handleRequest(interaction, env);
+});
+
+// Catch anything not caught by interactions.
+router.all('*', () => new Response('Not Found.', { status: 404 }));
+
+/**
+ * Break out the request handler to allow for unit testing
+ */
+
+export async function handleRequest(interaction, env) {
+  const dateTime = new Date().toDateString();
 
   // Interactions
   if (interaction.type === InteractionType.PING) {
@@ -63,10 +75,7 @@ router.post('/', async (request, env) => {
     response = await routeMagic8Ball(interaction);
   }
   return response;
-});
-
-// Catch anything not caught by interactions.
-router.all('*', () => new Response('Not Found.', { status: 404 }));
+}
 
 /**
  * The security checking code. Don't touch.

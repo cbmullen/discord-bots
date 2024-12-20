@@ -27,15 +27,21 @@
     "itty-router": "^4.0.13"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "babel-jest": "^29.7.0",
     "c8": "^9.0.0",
     "chai": "^5.0.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-jest": "^28.10.0",
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^9.1.7",
+    "jest": "^29.7.0",
     "lint-staged": "^15.2.11",
     "mocha": "^10.2.0",
+    "nock": "^13.5.6",
     "prettier": "3.4.2",
     "sinon": "^17.0.0",
     "wrangler": "^3.99.0"

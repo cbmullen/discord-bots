@@ -5,7 +5,9 @@
     "prettier/prettier": ["error"]
   },
   "env": {
-    "serviceworker": true
+    "serviceworker": true,
+    "node": true, // This tells ESLint to recognize Node.js global variables like `global`
+    "jest": true // This tells ESLint that you are running tests in Jest environment
   },
   "parserOptions": {
     "sourceType": "module",
