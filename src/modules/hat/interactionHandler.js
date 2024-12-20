@@ -29,7 +29,7 @@ export async function handleItemButtonClick(env, interaction) {
 
   try {
     await DeleteMessage(env, interaction);
-    return SendActionRowComponents(buttons, '');
+    return SendActionRowComponents(buttons, interaction.message.content);
   } catch (error) {
     return SendError(error);
   }
@@ -55,7 +55,7 @@ export async function handleRandomButtonClick(env, interaction) {
 
   try {
     await DeleteMessage(env, interaction);
-    return SendActionRowComponents(buttons, '');
+    return SendActionRowComponents(buttons, interaction.message.content);
   } catch (error) {
     return SendError(error);
   }

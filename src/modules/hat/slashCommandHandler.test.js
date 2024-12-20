@@ -113,7 +113,7 @@ describe('Hat Slash Handler', () => {
     expect(response.type).toEqual(
       InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     );
-    expect(response.data.content).toEqual('');
+    expect(response.data.content).toEqual('Board Games I want to play');
     const components = [
       {
         components: [

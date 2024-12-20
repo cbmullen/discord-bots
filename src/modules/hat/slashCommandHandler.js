@@ -41,5 +41,5 @@ export function handleSlashCommand(interaction) {
     style: ButtonStyleTypes.SECONDARY,
   });
 
-  return SendActionRowComponents(buttons, '');
+  return SendActionRowComponents(buttons, interaction.data.options[0].value);
 }

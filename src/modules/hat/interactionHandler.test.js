@@ -126,6 +126,7 @@ function MockInteractionAllSelected() {
       },
     },
     message: {
+      content: 'Who wants to click the button?',
       channel_id: '1234567890',
       id: '0987654321',
       components: [
@@ -172,6 +173,7 @@ function MockInteraction() {
       },
     },
     message: {
+      content: 'Who wants to click the button?',
       channel_id: '1234567890',
       id: '0987654321',
       components: [
