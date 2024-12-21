@@ -15,7 +15,7 @@ const applicationId = process.env.DISCORD_APPLICATION_ID;
 
 const body = {
   name: 'pbem',
-  description: 'Basic command',
+  description: 'Play by email helper',
   options: [
     {
       type: 3,
