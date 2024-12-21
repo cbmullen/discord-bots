@@ -98,3 +98,13 @@ Test Interactions: Test your Discord interactions by sending requests from Disco
 Navigate to the debug application here - <https://discord.com/developers/applications>
 Replace the Interactions Endpoint URL with the forwarding `https://<guid>.ngrok-free.app` address
 Run commands or debug
+
+## Pre-commit checks
+
+When you try to commit code, pre-commit checks will lint your code for errors, prettier up the javascript and run the unit tests.
+
+## Running Unit Tests manually
+
+```
+npx jest
+```
