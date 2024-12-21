@@ -128,6 +128,80 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     });
   });
+
+  it('should handle clicking a button', async () => {
+    const mockPlayerButtonClick = MockPlayerButtonClick(); // Sisko takes his turn, and clicks Kirk.
+    const env = {};
+    const response = await handleRequest(mockPlayerButtonClick, env);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(response).toEqual({
+      data: {
+        components: [
+          {
+            components: [
+              {
+                custom_id: '1031_PBEMBUTTON_monopoly_undefined_true',
+                disabled: false,
+                label: 'Michael Burnham: Done',
+                style: ButtonStyleTypes.SUCCESS,
+                type: MessageComponentTypes.BUTTON,
+              },
+              {
+                custom_id: '1701_PBEMBUTTON_monopoly_undefined_true',
+                disabled: true,
+                label: 'James Kirk: Ready',
+                style: ButtonStyleTypes.PRIMARY,
+                type: MessageComponentTypes.BUTTON,
+              },
+              {
+                custom_id: '5567_PBEMBUTTON_monopoly_undefined_true',
+                disabled: false,
+                label: 'Carol Freeman: Done',
+                style: ButtonStyleTypes.SUCCESS,
+                type: MessageComponentTypes.BUTTON,
+              },
+              {
+                custom_id: '74205_PBEMBUTTON_monopoly_undefined_true',
+                disabled: false,
+                label: 'Benjamin Sisko: Done',
+                style: ButtonStyleTypes.SUCCESS,
+                type: MessageComponentTypes.BUTTON,
+              },
+              {
+                custom_id: '74656_PBEMBUTTON_monopoly_undefined_true',
+                disabled: false,
+                label: 'Kathryn Janeway: Done',
+                style: ButtonStyleTypes.SUCCESS,
+                type: MessageComponentTypes.BUTTON,
+              },
+            ],
+            type: MessageComponentTypes.ACTION_ROW,
+          },
+          {
+            components: [
+              {
+                custom_id: '76884_PBEMBUTTON_monopoly_undefined_true',
+                disabled: false,
+                label: 'Chakotay: Done',
+                style: ButtonStyleTypes.SUCCESS,
+                type: MessageComponentTypes.BUTTON,
+              },
+              {
+                custom_id: '80102_PBEMBUTTON_monopoly_undefined_true',
+                disabled: false,
+                label: 'Seven of Nine: Done',
+                style: ButtonStyleTypes.SUCCESS,
+                type: MessageComponentTypes.BUTTON,
+              },
+            ],
+            type: MessageComponentTypes.ACTION_ROW,
+          },
+        ],
+        content: 'Playing: monopoly. (Started at: Sat Dec 21 2024).\n <@1701>',
+      },
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    });
+  });
 });
 
 function MockNewGameInteraction() {
@@ -240,6 +314,76 @@ function MockPlayerSortingInteractionLastTwo(playerId) {
               type: MessageComponentTypes.STRING_SELECT,
             },
           ],
+        },
+      ],
+    },
+  };
+}
+
+function MockPlayerButtonClick() {
+  return {
+    // Player selection
+    data: {
+      component_type: MessageComponentTypes.BUTTON,
+      custom_id: '1701_PBEMBUTTON_monopoly_undefined_true', // He is passing the turn to Kirk
+    },
+    // From message
+    message: {
+      channel_id: '928350272617599009',
+      content: 'Playing: monopoly. (Started at: Sat Dec 21 2024).\n <@74205>', // Sisko has just clicked the button
+      id: '1319981699303608413',
+      components: [
+        {
+          components: [
+            {
+              custom_id: '1031_PBEMBUTTON_monopoly_undefined_true',
+              label: 'Michael Burnham: Done',
+              style: ButtonStyleTypes.SUCCESS,
+              type: MessageComponentTypes.BUTTON,
+            },
+            {
+              custom_id: '1701_PBEMBUTTON_monopoly_undefined_true',
+              label: 'James Kirk: Ready',
+              style: ButtonStyleTypes.PRIMARY,
+              type: MessageComponentTypes.BUTTON,
+            },
+            {
+              custom_id: '5567_PBEMBUTTON_monopoly_undefined_true',
+              label: 'Carol Freeman: Ready',
+              style: ButtonStyleTypes.SUCCESS,
+              type: MessageComponentTypes.BUTTON,
+            },
+            {
+              custom_id: '74205_PBEMBUTTON_monopoly_undefined_true',
+              label: 'Benjamin Sisko: Ready',
+              style: ButtonStyleTypes.SUCCESS,
+              type: MessageComponentTypes.BUTTON,
+            },
+            {
+              custom_id: '74656_PBEMBUTTON_monopoly_undefined_true',
+              label: 'Kathryn Janeway: Ready',
+              style: ButtonStyleTypes.SUCCESS,
+              type: MessageComponentTypes.BUTTON,
+            },
+          ],
+          type: MessageComponentTypes.ACTION_ROW,
+        },
+        {
+          components: [
+            {
+              custom_id: '76884_PBEMBUTTON_monopoly_undefined_true',
+              label: 'Chakotay: Ready',
+              style: ButtonStyleTypes.SUCCESS,
+              type: MessageComponentTypes.BUTTON,
+            },
+            {
+              custom_id: '80102_PBEMBUTTON_monopoly_undefined_true',
+              label: 'Seven of Nine: Ready',
+              style: ButtonStyleTypes.SUCCESS,
+              type: MessageComponentTypes.BUTTON,
+            },
+          ],
+          type: MessageComponentTypes.ACTION_ROW,
         },
       ],
     },
