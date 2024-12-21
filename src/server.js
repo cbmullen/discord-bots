@@ -32,8 +32,6 @@ router.post('/', async (request, env) => {
     return new Response('Bad request signature.', { status: 401 });
   }
 
-  //TODO: Remove this when you've written all the unit tests
-  console.log(interaction);
   // Unit Test this.
   const response = await handleRequest(interaction, env);
 
