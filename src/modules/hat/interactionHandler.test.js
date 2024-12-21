@@ -25,8 +25,6 @@ describe('Hat Interaction Handler', () => {
     jest.clearAllMocks();
   });
 
-  //TODO: It should handle clicking on a selected button
-
   it('should handle clicking on a free button in the first row', async () => {
     const interaction = MockInteraction('b_HATBUTTON_test'); // Button B is pressed.
     const env = {};
