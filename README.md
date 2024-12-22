@@ -103,7 +103,13 @@ Run commands or debug
 
 When you try to commit code, pre-commit checks will lint your code for errors, prettier up the javascript and run the unit tests.
 
-## Running Unit Tests manually
+## Making it prettier locally
+
+```
+npx prettier --write .
+```
+
+## Running Unit Tests locally
 
 ```
 npx jest

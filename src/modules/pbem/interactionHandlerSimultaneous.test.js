@@ -35,35 +35,35 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
             components: [
               {
                 custom_id:
-                  '1031_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '1031_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Michael Burnham: Ready',
                 style: 1,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '1701_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '1701_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'James Kirk: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '5567_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '5567_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Carol Freeman: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '74205_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '74205_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Benjamin Sisko: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '74656_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '74656_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Kathryn Janeway: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
@@ -75,14 +75,14 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
             components: [
               {
                 custom_id:
-                  '76884_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '76884_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Chakotay: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '80102_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '80102_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Seven of Nine: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
@@ -92,7 +92,7 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
           },
         ],
         content:
-          'Playing: hungry hungry hippos. (Started at: Sat Dec 21 2024).\n <@1031>, <@1701>, <@5567>, <@74205>, <@74656>, <@76884>, <@80102>',
+          'Playing: hungry hungry hippos.\n <@1031>, <@1701>, <@5567>, <@74205>, <@74656>, <@76884>, <@80102>',
       },
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     });
@@ -110,35 +110,35 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
             components: [
               {
                 custom_id:
-                  '1031_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '1031_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Michael Burnham: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '1701_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '1701_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'James Kirk: Done',
                 style: ButtonStyleTypes.SUCCESS,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '5567_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '5567_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Carol Freeman: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '74205_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '74205_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Benjamin Sisko: Done',
                 style: ButtonStyleTypes.SUCCESS,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '74656_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '74656_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Kathryn Janeway: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
@@ -150,14 +150,14 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
             components: [
               {
                 custom_id:
-                  '76884_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '76884_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Chakotay: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '80102_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '80102_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Seven of Nine: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
@@ -167,7 +167,7 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
           },
         ],
         content:
-          'Playing: hungry hungry hippos. (Started at: Sat Dec 21 2024).\n <@1031>, <@5567>, <@74656>, <@76884>, <@80102>',
+          'Playing: hungry hungry hippos.\n <@1031>, <@5567>, <@74656>, <@76884>, <@80102>',
       },
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     });
@@ -185,35 +185,35 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
             components: [
               {
                 custom_id:
-                  '1031_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '1031_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Michael Burnham: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '1701_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '1701_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'James Kirk: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '5567_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '5567_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Carol Freeman: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '74205_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '74205_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Benjamin Sisko: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '74656_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '74656_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Kathryn Janeway: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
@@ -225,14 +225,14 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
             components: [
               {
                 custom_id:
-                  '76884_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '76884_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Chakotay: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
                 custom_id:
-                  '80102_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                  '80102_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
                 label: 'Seven of Nine: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
@@ -242,7 +242,7 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
           },
         ],
         content:
-          'Playing: hungry hungry hippos. (Started at: Sat Dec 21 2024).\n <@1031>, <@1701>, <@5567>, <@74205>, <@74656>, <@76884>, <@80102>',
+          'Playing: hungry hungry hippos.\n <@1031>, <@1701>, <@5567>, <@74205>, <@74656>, <@76884>, <@80102>',
       },
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     });
@@ -253,7 +253,8 @@ function MockNewGameInteraction() {
   return {
     data: {
       component_type: MessageComponentTypes.USER_SELECT,
-      custom_id: 'DISCORD_NEWGAME_hungry hungry hippos_Sat Dec 21 2024_false',
+      custom_id:
+        'DISCORD_NEWGAME_hungry hungry hippos_Sat Dec 21 2024_simultaneous',
       resolved: {
         users: {
           1701: { username: 'James Kirk', id: 1701 },
@@ -278,45 +279,48 @@ function MockPlayerButtonClick(playerId) {
     // Player selection
     data: {
       component_type: MessageComponentTypes.BUTTON,
-      custom_id: `${playerId}_PBEMBUTTON_hungry hungry hippos_undefined_false`, // Player button clicked.
+      custom_id: `${playerId}_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous`, // Player button clicked.
     },
     // From message
     message: {
       channel_id: '928350272617599009',
       content:
-        'Playing: hungry hungry hippos. (Started at: Sat Dec 21 2024).\n <@1031>, <@5567>, <@74205>, <@74656>, <@76884>, <@80102>',
+        'Playing: hungry hungry hippos.\n <@1031>, <@5567>, <@74205>, <@74656>, <@76884>, <@80102>',
       id: '1319981699303608413',
       components: [
         {
           components: [
             {
-              custom_id: '1031_PBEMBUTTON_hungry hungry hippos_undefined_false',
+              custom_id:
+                '1031_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
               label: 'Michael Burnham: Ready',
               style: ButtonStyleTypes.PRIMARY,
               type: MessageComponentTypes.BUTTON,
             },
             {
-              custom_id: '1701_PBEMBUTTON_hungry hungry hippos_undefined_false',
+              custom_id:
+                '1701_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
               label: 'James Kirk: Done',
               style: ButtonStyleTypes.SUCCESS,
               type: MessageComponentTypes.BUTTON,
             },
             {
-              custom_id: '5567_PBEMBUTTON_hungry hungry hippos_undefined_false',
+              custom_id:
+                '5567_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
               label: 'Carol Freeman: Ready',
               style: ButtonStyleTypes.PRIMARY,
               type: MessageComponentTypes.BUTTON,
             },
             {
               custom_id:
-                '74205_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                '74205_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
               label: 'Benjamin Sisko: Ready',
               style: ButtonStyleTypes.PRIMARY,
               type: MessageComponentTypes.BUTTON,
             },
             {
               custom_id:
-                '74656_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                '74656_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
               label: 'Kathryn Janeway: Ready',
               style: ButtonStyleTypes.PRIMARY,
               type: MessageComponentTypes.BUTTON,
@@ -328,14 +332,14 @@ function MockPlayerButtonClick(playerId) {
           components: [
             {
               custom_id:
-                '76884_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                '76884_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
               label: 'Chakotay: Ready',
               style: ButtonStyleTypes.PRIMARY,
               type: MessageComponentTypes.BUTTON,
             },
             {
               custom_id:
-                '80102_PBEMBUTTON_hungry hungry hippos_undefined_false',
+                '80102_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
               label: 'Seven of Nine: Ready',
               style: ButtonStyleTypes.PRIMARY,
               type: MessageComponentTypes.BUTTON,

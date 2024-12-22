@@ -6,7 +6,7 @@ export function SplitCustomId(string) {
     header: `${words[1]}`,
     name: `${words[2]}`,
     datetime: `${words[3]}`,
-    isConsecutive: `${words[4]}`,
+    mode: `${words[4]}`,
   };
   return id;
 }

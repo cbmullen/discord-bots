@@ -1,3 +1,7 @@
 {
-  "*.js": ["eslint --fix", "prettier --write --ignore-unknown", "jest --passWithNoTests"]
+  "*.js": [
+    "eslint --fix",
+    "prettier --write --ignore-unknown",
+    "jest --passWithNoTests"
+  ]
 }

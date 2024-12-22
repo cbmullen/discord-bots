@@ -28,9 +28,9 @@ describe('Play by Email Slash Handler', () => {
             value: 'hungry hungry hippos',
           },
           {
-            name: 'isconsecutive',
+            name: 'mode',
             type: 5,
-            value: false,
+            value: 'simultaneous',
           },
         ],
       },
@@ -58,7 +58,7 @@ describe('Play by Email Slash Handler', () => {
     expect(responseActionRowComponents.custom_id).toContain(
       'DISCORD_NEWGAME_hungry hungry hippos_',
     );
-    expect(responseActionRowComponents.custom_id).toContain('_false');
+    expect(responseActionRowComponents.custom_id).toContain('_simultaneous');
     expect(responseActionRowComponents.min_values).toEqual(2);
     expect(responseActionRowComponents.max_values).toEqual(20);
   });
@@ -75,9 +75,9 @@ describe('Play by Email Slash Handler', () => {
             value: 'monopoly',
           },
           {
-            name: 'isconsecutive',
+            name: 'mode',
             type: 5,
-            value: true,
+            value: 'consecutive',
           },
         ],
       },
@@ -105,7 +105,7 @@ describe('Play by Email Slash Handler', () => {
     expect(responseActionRowComponents.custom_id).toContain(
       'DISCORD_NEWGAME_monopoly_',
     );
-    expect(responseActionRowComponents.custom_id).toContain('_true');
+    expect(responseActionRowComponents.custom_id).toContain('_consecutive');
     expect(responseActionRowComponents.min_values).toEqual(2);
     expect(responseActionRowComponents.max_values).toEqual(20);
   });

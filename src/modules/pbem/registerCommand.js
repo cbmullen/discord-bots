@@ -24,10 +24,25 @@ const body = {
       required: true,
     },
     {
-      type: 5,
-      name: 'isconsecutive',
-      description: 'Are the turns resolved consecutively or simultaneously?',
+      type: 3,
+      name: 'mode',
+      description:
+        'Are the turns resolved consecutively or simultaneously? Or a bit of both?',
       required: true,
+      choices: [
+        {
+          name: 'Consecutive turns',
+          value: 'consecutive',
+        },
+        {
+          name: 'Simultaneous turns',
+          value: 'simultaneous',
+        },
+        {
+          name: 'A bit of both ',
+          value: 'both',
+        },
+      ],
     },
   ],
   type: 1,

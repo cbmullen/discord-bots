@@ -11,11 +11,11 @@ describe('Utils', () => {
   });
 
   it('should split the customId correctly', async () => {
-    const customId = 'DISCORD_PLAYERSORTING_foo_Sat Dec 21 2024_true';
+    const customId = 'DISCORD_PLAYERSORTING_foo_Sat Dec 21 2024_both';
     const result = SplitCustomId(customId);
     expect(result.datetime).toEqual('Sat Dec 21 2024');
     expect(result.header).toEqual('PLAYERSORTING');
-    expect(result.isConsecutive).toEqual('true');
+    expect(result.mode).toEqual('both');
     expect(result.name).toEqual('foo');
     expect(result.uid).toEqual('DISCORD');
   });

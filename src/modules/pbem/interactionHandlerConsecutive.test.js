@@ -28,14 +28,14 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
     const env = {};
     const response = await handleRequest(mockNewGameInteraction, env);
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(response).toEqual({
+    const dateTime = new Date().toDateString();
+    const expectedResponse = {
       data: {
         components: [
           {
             components: [
               {
-                custom_id:
-                  '$DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_true',
+                custom_id: `$DISCORD_PLAYERSORTING_monopoly_${dateTime}_consecutive`,
                 options: [
                   { label: 'Michael Burnham', value: '1031' },
                   { label: 'James Kirk', value: '1701' },
@@ -54,7 +54,9 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
         content: 'Select Player 1',
       },
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-    });
+    };
+
+    expect(response).toEqual(expectedResponse);
   });
 
   it('should handle player sorting multiple rows - return another sorting request', async () => {
@@ -69,7 +71,7 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
             components: [
               {
                 custom_id:
-                  'DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_true',
+                  'DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_consecutive',
                 options: [
                   { label: 'James Kirk', value: '1701' },
                   { label: 'Kathryn Janeway', value: '74656' },
@@ -106,14 +108,14 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
           {
             components: [
               {
-                custom_id: '74656_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '74656_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: true,
                 label: 'Kathryn Janeway: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
-                custom_id: '1701_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '1701_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: false,
                 label: 'James Kirk: Done',
                 style: ButtonStyleTypes.SUCCESS,
@@ -123,7 +125,7 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
             type: MessageComponentTypes.ACTION_ROW,
           },
         ],
-        content: 'Playing: monopoly. (Started at: Sat Dec 21 2024).\n <@74656>',
+        content: 'Playing: monopoly.\n <@74656>',
       },
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     });
@@ -140,35 +142,35 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
           {
             components: [
               {
-                custom_id: '1031_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '1031_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: false,
                 label: 'Michael Burnham: Done',
                 style: ButtonStyleTypes.SUCCESS,
                 type: MessageComponentTypes.BUTTON,
               },
               {
-                custom_id: '1701_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '1701_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: true,
                 label: 'James Kirk: Ready',
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
               {
-                custom_id: '5567_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '5567_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: false,
                 label: 'Carol Freeman: Done',
                 style: ButtonStyleTypes.SUCCESS,
                 type: MessageComponentTypes.BUTTON,
               },
               {
-                custom_id: '74205_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '74205_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: false,
                 label: 'Benjamin Sisko: Done',
                 style: ButtonStyleTypes.SUCCESS,
                 type: MessageComponentTypes.BUTTON,
               },
               {
-                custom_id: '74656_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '74656_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: false,
                 label: 'Kathryn Janeway: Done',
                 style: ButtonStyleTypes.SUCCESS,
@@ -180,14 +182,14 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
           {
             components: [
               {
-                custom_id: '76884_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '76884_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: false,
                 label: 'Chakotay: Done',
                 style: ButtonStyleTypes.SUCCESS,
                 type: MessageComponentTypes.BUTTON,
               },
               {
-                custom_id: '80102_PBEMBUTTON_monopoly_undefined_true',
+                custom_id: '80102_PBEMBUTTON_monopoly_undefined_consecutive',
                 disabled: false,
                 label: 'Seven of Nine: Done',
                 style: ButtonStyleTypes.SUCCESS,
@@ -197,7 +199,7 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
             type: MessageComponentTypes.ACTION_ROW,
           },
         ],
-        content: 'Playing: monopoly. (Started at: Sat Dec 21 2024).\n <@1701>',
+        content: 'Playing: monopoly.\n <@1701>',
       },
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     });
@@ -208,7 +210,7 @@ function MockNewGameInteraction() {
   return {
     data: {
       component_type: MessageComponentTypes.USER_SELECT,
-      custom_id: 'DISCORD_NEWGAME_monopoly_Sat Dec 21 2024_true',
+      custom_id: 'DISCORD_NEWGAME_monopoly_Sat Dec 21 2024_consecutive',
       resolved: {
         users: {
           1701: { username: 'James Kirk', id: 1701 },
@@ -233,7 +235,7 @@ function MockPlayerSortingInteraction(playerId) {
     // Player selection
     data: {
       component_type: MessageComponentTypes.STRING_SELECT,
-      custom_id: 'DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_true',
+      custom_id: 'DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_consecutive',
       values: [playerId],
     },
     // From message
@@ -244,7 +246,8 @@ function MockPlayerSortingInteraction(playerId) {
         {
           components: [
             {
-              custom_id: '$DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_true',
+              custom_id:
+                '$DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_consecutive',
               options: [
                 {
                   label: 'James Kirk',
@@ -289,7 +292,7 @@ function MockPlayerSortingInteractionLastTwo(playerId) {
     // Player selection
     data: {
       component_type: MessageComponentTypes.STRING_SELECT,
-      custom_id: 'DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_true',
+      custom_id: 'DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_consecutive',
       values: [playerId],
     },
     // From message
@@ -300,7 +303,8 @@ function MockPlayerSortingInteractionLastTwo(playerId) {
         {
           components: [
             {
-              custom_id: '$DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_true',
+              custom_id:
+                '$DISCORD_PLAYERSORTING_monopoly_Sat Dec 21 2024_consecutive',
               options: [
                 {
                   label: 'James Kirk',
@@ -325,42 +329,42 @@ function MockPlayerButtonClick() {
     // Player selection
     data: {
       component_type: MessageComponentTypes.BUTTON,
-      custom_id: '1701_PBEMBUTTON_monopoly_undefined_true', // He is passing the turn to Kirk
+      custom_id: '1701_PBEMBUTTON_monopoly_undefined_consecutive', // He is passing the turn to Kirk
     },
     // From message
     message: {
       channel_id: '928350272617599009',
-      content: 'Playing: monopoly. (Started at: Sat Dec 21 2024).\n <@74205>', // Sisko has just clicked the button
+      content: 'Playing: monopoly.\n <@74205>', // Sisko has just clicked the button
       id: '1319981699303608413',
       components: [
         {
           components: [
             {
-              custom_id: '1031_PBEMBUTTON_monopoly_undefined_true',
+              custom_id: '1031_PBEMBUTTON_monopoly_undefined_consecutive',
               label: 'Michael Burnham: Done',
               style: ButtonStyleTypes.SUCCESS,
               type: MessageComponentTypes.BUTTON,
             },
             {
-              custom_id: '1701_PBEMBUTTON_monopoly_undefined_true',
+              custom_id: '1701_PBEMBUTTON_monopoly_undefined_consecutive',
               label: 'James Kirk: Ready',
               style: ButtonStyleTypes.PRIMARY,
               type: MessageComponentTypes.BUTTON,
             },
             {
-              custom_id: '5567_PBEMBUTTON_monopoly_undefined_true',
+              custom_id: '5567_PBEMBUTTON_monopoly_undefined_consecutive',
               label: 'Carol Freeman: Ready',
               style: ButtonStyleTypes.SUCCESS,
               type: MessageComponentTypes.BUTTON,
             },
             {
-              custom_id: '74205_PBEMBUTTON_monopoly_undefined_true',
+              custom_id: '74205_PBEMBUTTON_monopoly_undefined_consecutive',
               label: 'Benjamin Sisko: Ready',
               style: ButtonStyleTypes.SUCCESS,
               type: MessageComponentTypes.BUTTON,
             },
             {
-              custom_id: '74656_PBEMBUTTON_monopoly_undefined_true',
+              custom_id: '74656_PBEMBUTTON_monopoly_undefined_consecutive',
               label: 'Kathryn Janeway: Ready',
               style: ButtonStyleTypes.SUCCESS,
               type: MessageComponentTypes.BUTTON,
@@ -371,13 +375,13 @@ function MockPlayerButtonClick() {
         {
           components: [
             {
-              custom_id: '76884_PBEMBUTTON_monopoly_undefined_true',
+              custom_id: '76884_PBEMBUTTON_monopoly_undefined_consecutive',
               label: 'Chakotay: Ready',
               style: ButtonStyleTypes.SUCCESS,
               type: MessageComponentTypes.BUTTON,
             },
             {
-              custom_id: '80102_PBEMBUTTON_monopoly_undefined_true',
+              custom_id: '80102_PBEMBUTTON_monopoly_undefined_consecutive',
               label: 'Seven of Nine: Ready',
               style: ButtonStyleTypes.SUCCESS,
               type: MessageComponentTypes.BUTTON,

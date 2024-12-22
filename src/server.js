@@ -49,7 +49,7 @@ router.all('*', () => new Response('Not Found.', { status: 404 }));
 
 export async function handleRequest(interaction, env) {
   const dateTime = new Date().toDateString();
-
+  console.log(interaction);
   // Interactions
   if (interaction.type === InteractionType.PING) {
     const response = {
