@@ -276,7 +276,7 @@ describe('Play By Email Interaction Handler - Both', () => {
   });
 });
 
-// TODO: Lots of tests!
+// TODO: Tests like simultaneous refreshing
 
 function MockNewGameInteraction() {
   return {
