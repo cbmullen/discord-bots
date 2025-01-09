@@ -24,8 +24,8 @@
   "author": "Me",
   "dependencies": {
     "discord-interactions": "^4.1.0",
-    "express": "^4.19.2",
-    "itty-router": "^4.0.13"
+    "express": "^4.21.2",
+    "itty-router": "^5.0.18"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

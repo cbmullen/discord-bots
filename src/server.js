@@ -99,7 +99,7 @@ async function verifyDiscordRequest(request, env) {
 const server = {
   verifyDiscordRequest: verifyDiscordRequest,
   fetch: async function (request, env) {
-    return router.handle(request, env);
+    return router.fetch(request, env);
   },
 };
 
