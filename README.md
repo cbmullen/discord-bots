@@ -14,7 +14,7 @@ Copy the URL into a browser and add the application
 ## To update the worker on Wrangler <sbx | prd>
 
 ```
-$ npm run publish:sbx
+$ npm run deploy:sbx
 ```
 
 ## To update secrets via wrangler so they aren't overwritten by deployments <sbx | prd>
@@ -113,4 +113,10 @@ npx prettier --write .
 
 ```
 npx jest
+```
+
+## Update check
+```
+npx npm-check-updates -u
+npm install
 ```
