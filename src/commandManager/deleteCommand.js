@@ -12,7 +12,7 @@ dotenv.config({ path: '.dev.vars' });
 
 const token = process.env.DISCORD_TOKEN;
 const applicationId = process.env.DISCORD_APPLICATION_ID;
-const commandId = '_placeholder_';
+const commandId = '1349137173840138291';
 
 await fetch(
   `https://discord.com/api/v10/applications/${applicationId}/commands/${commandId}`,
