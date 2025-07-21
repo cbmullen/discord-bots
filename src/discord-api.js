@@ -9,11 +9,22 @@ async function DiscordRequest(env, endpoint, options) {
     },
     ...options,
   });
+  const text = await res.text();
   // throw API errors
   if (!res.ok) {
-    const data = await res.json();
-    console.log(res.status);
-    throw new Error(JSON.stringify(data));
+    const rateLimitInfo = {
+      discordRetryAfter: res.headers.get('X-RateLimit-Reset-After'),
+      cloudflareRetryAfter: res.headers.get('Retry-After'),
+      status: res.status,
+      body: text,
+      translateForNonNerds: "I don't know",
+    };
+    // const data = await res.json();
+    if (text === 'error code: 1015') {
+      rateLimitInfo.translateForNonNerds =
+        'Cloudflare is rate limiting the bot. Try again later.';
+    }
+    throw new Error(JSON.stringify(rateLimitInfo));
   }
   // return original response
   return res;
