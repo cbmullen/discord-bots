@@ -6,7 +6,7 @@ import {
   flattenActionRowComponents,
 } from '../../interactionResponse';
 import { GetSelectedUsers, SplitCustomId, SplitMessage } from './utils';
-import { DeleteMessage } from '../../discord-api';
+// import { DeleteMessage } from '../../discord-api';
 import { SendError } from '../../interactionResponse';
 
 let orderedUserList = [];
@@ -35,7 +35,7 @@ export async function handlePlayerSelectConsecutive(
   let response = SendStringSelectMessage('Select Player 1', customId, options);
 
   try {
-    await DeleteMessage(env, interaction);
+    // await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);
@@ -83,7 +83,7 @@ export async function handlePlayerSorting(env, interaction, customObj) {
 
   if (options.length > 1) {
     try {
-      await DeleteMessage(env, interaction);
+      // await DeleteMessage(env, interaction);
       return response;
     } catch (error) {
       response = SendError(error);
@@ -151,7 +151,7 @@ export async function handleSwitchModeButtonClicking(
   );
 
   try {
-    await DeleteMessage(env, interaction);
+    // await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);
@@ -245,7 +245,7 @@ export async function handleButtonClicking(env, interaction, customObj) {
   let response = UpdateMessage(interaction, CreateAlertMessage(buttons));
 
   try {
-    await DeleteMessage(env, interaction);
+    // await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);
@@ -304,7 +304,7 @@ async function CreateAndSendUserButtonsFromList(
   );
 
   try {
-    await DeleteMessage(env, interaction);
+    // await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);
