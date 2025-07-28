@@ -20,9 +20,31 @@ async function DiscordRequest(env, endpoint, options) {
       translateForNonNerds: "I don't know",
     };
     // const data = await res.json();
-    if (text === 'error code: 1015') {
-      rateLimitInfo.translateForNonNerds =
-        'Cloudflare is rate limiting the bot. Try again later.';
+    if (text === 'error code: 1015' || res.status === 429) {
+      let retryAfter =
+        res.headers.get('Retry-After') ||
+        res.headers.get('X-RateLimit-Reset-After');
+      let minutesSeconds = 'unknown';
+      if (retryAfter) {
+        // Retry-After can be seconds or a date string
+        let seconds = parseFloat(retryAfter);
+        if (isNaN(seconds)) {
+          // Try to parse as date
+          const retryDate = new Date(retryAfter);
+          if (!isNaN(retryDate.getTime())) {
+            seconds = Math.max(
+              0,
+              Math.round((retryDate.getTime() - Date.now()) / 1000),
+            );
+          }
+        }
+        if (!isNaN(seconds)) {
+          const m = Math.floor(seconds / 60);
+          const s = Math.floor(seconds % 60);
+          minutesSeconds = `${m}:${s.toString().padStart(2, '0')}`;
+        }
+      }
+      rateLimitInfo.translateForNonNerds = `Cloudflare is rate limiting the bot. Try again in ${minutesSeconds} (mm:ss).`;
     }
     throw new Error(JSON.stringify(rateLimitInfo));
   }
