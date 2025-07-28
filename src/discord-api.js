@@ -52,10 +52,10 @@ async function DiscordRequest(env, endpoint, options) {
   return res;
 }
 
-// export async function DeleteMessage(env, interaction) {
-//   const endpoint = `/channels/${interaction.message.channel_id}/messages/${interaction.message.id}`;
-//   return await DiscordRequest(env, endpoint, { method: 'DELETE' });
-// }
+export async function DeleteMessage(env, interaction) {
+  const endpoint = `/channels/${interaction.message.channel_id}/messages/${interaction.message.id}`;
+  return await DiscordRequest(env, endpoint, { method: 'DELETE' });
+}
 
 export async function GetCommands(env) {
   const endpoint = `/applications/${env.DISCORD_APPLICATION_ID}/commands`;

@@ -27,7 +27,7 @@ describe('Play By Email Interaction Handler - Both', () => {
     const mockNewGameInteraction = MockNewGameInteraction();
     const env = {};
     const response = await handleRequest(mockNewGameInteraction, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
     const expectedResponse = {
       data: {
         components: [
@@ -110,7 +110,7 @@ describe('Play By Email Interaction Handler - Both', () => {
     const mockSwitchFromSimultaneous = MockSwitchFromSimultaneous();
     const env = {};
     const response = await handleRequest(mockSwitchFromSimultaneous, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({
       data: {
         components: [
@@ -197,7 +197,7 @@ describe('Play By Email Interaction Handler - Both', () => {
     const mockSwitchFromConsecutive = MockSwitchFromConsecutive();
     const env = {};
     const response = await handleRequest(mockSwitchFromConsecutive, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({
       data: {
         components: [
