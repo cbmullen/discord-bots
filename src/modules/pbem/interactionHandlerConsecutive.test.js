@@ -27,7 +27,7 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
     const mockNewGameInteraction = MockNewGameInteraction();
     const env = {};
     const response = await handleRequest(mockNewGameInteraction, env);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(0);
     const dateTime = new Date().toDateString();
     const expectedResponse = {
       data: {
@@ -63,7 +63,7 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
     const mockPlayerSortingInteraction = MockPlayerSortingInteraction('80102'); // Select Seven of Nine, not last
     const env = {};
     const response = await handleRequest(mockPlayerSortingInteraction, env);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(0);
     expect(response).toEqual({
       data: {
         components: [
@@ -101,7 +101,7 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
       MockPlayerSortingInteractionLastTwo('74656'); // Select Janeway, last 2 in the list, so Kirk goes last.
     const env = {};
     const response = await handleRequest(mockPlayerSortingInteraction, env);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(0);
     expect(response).toEqual({
       data: {
         components: [
@@ -135,7 +135,7 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
     const mockPlayerButtonClick = MockPlayerButtonClick(); // Sisko takes his turn, and clicks Kirk.
     const env = {};
     const response = await handleRequest(mockPlayerButtonClick, env);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(0);
     expect(response).toEqual({
       data: {
         components: [
