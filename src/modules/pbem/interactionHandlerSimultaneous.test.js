@@ -27,7 +27,7 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
     const mockNewGameInteraction = MockNewGameInteraction();
     const env = {};
     const response = await handleRequest(mockNewGameInteraction, env);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(0);
     expect(response).toEqual({
       data: {
         components: [
@@ -87,6 +87,13 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
                 style: ButtonStyleTypes.PRIMARY,
                 type: MessageComponentTypes.BUTTON,
               },
+              {
+                custom_id:
+                  'DELETE_PBEMBUTTON_hungry hungry hippos_undefined_simultaneous',
+                label: 'Delete',
+                style: ButtonStyleTypes.DANGER,
+                type: MessageComponentTypes.BUTTON,
+              },
             ],
             type: MessageComponentTypes.ACTION_ROW,
           },
@@ -102,7 +109,7 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
     const mockPlayerButtonClick = MockPlayerButtonClick('74205'); // Kirk's button was previously clicked. Sisko's button is clicked
     const env = {};
     const response = await handleRequest(mockPlayerButtonClick, env);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(0);
     expect(response).toEqual({
       data: {
         components: [
@@ -177,7 +184,7 @@ describe('Play By Email Interaction Handler - Simultaneous', () => {
     const mockPlayerButtonClick = MockPlayerButtonClick('1701'); // Kirk's button was previously clicked. Kirk's button is clicked again
     const env = {};
     const response = await handleRequest(mockPlayerButtonClick, env);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(0);
     expect(response).toEqual({
       data: {
         components: [

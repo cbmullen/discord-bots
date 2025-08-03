@@ -116,6 +116,7 @@ npx jest
 ```
 
 ## Update check
+
 ```
 npx npm-check-updates -u
 npm install
