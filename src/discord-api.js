@@ -5,6 +5,7 @@ async function DiscordRequest(env, endpoint, options) {
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
+      'User-Agent': 'DiscordBot (https://prd.cbmullen.workers.dev/, 1.0.0)',
       Authorization: `Bot ${env.DISCORD_TOKEN}`,
     },
     ...options,
