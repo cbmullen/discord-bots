@@ -36,7 +36,10 @@ router.post('/', async (request, env) => {
   const response = await handleRequest(interaction, env);
 
   return new Response(JSON.stringify(response), {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'User-Agent': 'DiscordBot (https://prd.cbmullen.workers.dev/, 1.0.0)',
+    },
   });
 });
 
