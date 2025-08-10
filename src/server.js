@@ -9,6 +9,7 @@ import { routeDice } from './modules/dice/routing';
 import { routePBEM } from './modules/pbem/routing';
 import { routeCoin } from './modules/cointoss/routing';
 import { routeMagic8Ball } from './modules/magic8ball/routing';
+import { routeYodaSpeak } from './modules/yodaspeak/routing';
 
 const router = Router();
 
@@ -77,6 +78,9 @@ export async function handleRequest(interaction, env) {
   }
   if (response === null) {
     response = routeMagic8Ball(interaction);
+  }
+  if (response === null) {
+    response = routeYodaSpeak(interaction);
   }
   return response;
 }
