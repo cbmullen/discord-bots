@@ -94,13 +94,6 @@ describe('Play By Email Interaction Handler - Both', () => {
                 style: ButtonStyleTypes.SECONDARY,
                 type: MessageComponentTypes.BUTTON,
               },
-              {
-                custom_id:
-                  'DELETE_PBEMBUTTON_game of thrones the board game_undefined_both',
-                label: 'Delete',
-                style: ButtonStyleTypes.DANGER,
-                type: MessageComponentTypes.BUTTON,
-              },
             ],
             type: MessageComponentTypes.ACTION_ROW,
           },
@@ -117,7 +110,7 @@ describe('Play By Email Interaction Handler - Both', () => {
     const mockSwitchFromSimultaneous = MockSwitchFromSimultaneous();
     const env = {};
     const response = await handleRequest(mockSwitchFromSimultaneous, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({
       data: {
         components: [
@@ -190,12 +183,6 @@ describe('Play By Email Interaction Handler - Both', () => {
                 style: 2,
                 type: 2,
               },
-              {
-                custom_id: 'DELETE_PBEMBUTTON_foo_undefined_both',
-                label: 'Delete',
-                style: 4,
-                type: 2,
-              },
             ],
             type: 1,
           },
@@ -210,7 +197,7 @@ describe('Play By Email Interaction Handler - Both', () => {
     const mockSwitchFromConsecutive = MockSwitchFromConsecutive();
     const env = {};
     const response = await handleRequest(mockSwitchFromConsecutive, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({
       data: {
         components: [
@@ -275,12 +262,6 @@ describe('Play By Email Interaction Handler - Both', () => {
                 disabled: false,
                 label: 'Seven of Nine: Ready',
                 style: 1,
-                type: 2,
-              },
-              {
-                custom_id: 'DELETE_PBEMBUTTON_foo_undefined_both',
-                label: 'Delete',
-                style: 4,
                 type: 2,
               },
             ],
@@ -402,12 +383,6 @@ function MockSwitchFromSimultaneous() {
               style: ButtonStyleTypes.SECONDARY,
               type: MessageComponentTypes.BUTTON,
             },
-            {
-              custom_id: 'DELETE_PBEMBUTTON_foo_undefined_both',
-              label: 'Delete',
-              style: ButtonStyleTypes.DANGER,
-              type: MessageComponentTypes.BUTTON,
-            },
           ],
           type: MessageComponentTypes.ACTION_ROW,
         },
@@ -488,12 +463,6 @@ function MockSwitchFromConsecutive() {
                 '80102_PBEMBUTTON_game of thrones the board game_undefined_both',
               label: 'Seven of Nine: Ready',
               style: ButtonStyleTypes.SUCCESS,
-              type: MessageComponentTypes.BUTTON,
-            },
-            {
-              custom_id: 'DELETE_PBEMBUTTON_foo_undefined_both',
-              label: 'Delete',
-              style: ButtonStyleTypes.DANGER,
               type: MessageComponentTypes.BUTTON,
             },
           ],

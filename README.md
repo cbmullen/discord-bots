@@ -75,7 +75,7 @@ Below is a basic overview of the project structure (\* = Git Ignored):
 │   ├── server.js                       -> Entry point for all discord apps. Does security checking and routing of interactions
 │   ├── interactions.js                 -> Shared interaction response models
 │   ├── utils.js                        -> May get moved.
-├── wrangler-sbx.toml*        -> Configuration for Cloudflare worker (Sandbox)
+├── wrangler-sbx.toml*        -> Configuration for Cloudflare worker (Sandbox) (Legacy)
 ├── wrangler-prd.toml*        -> Configuration for Cloudflare worker (Production)
 ├── package.json
 ├── README.md
