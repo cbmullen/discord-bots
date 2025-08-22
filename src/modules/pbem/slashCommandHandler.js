@@ -1,5 +1,5 @@
 // src/slashCommandHandler.js
-import { SendUserSelectMessage } from '../../interactionResponse.js';
+import { SendUserSelectMessage } from '../../interactionResponse';
 
 // Handle the slash command and send the select menu
 export function handleSlashCommand(interaction, dateTime) {

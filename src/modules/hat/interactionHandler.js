@@ -5,7 +5,7 @@ import {
   flattenActionRowComponents,
 } from '../../interactionResponse.js';
 import { SplitCustomId } from './utils.js';
-// import { DeleteMessage } from '../../discord-api';
+import { DeleteMessage } from '../../discord-api.js';
 import { SendError } from '../../interactionResponse.js';
 
 export async function handleItemButtonClick(env, interaction) {
@@ -28,7 +28,7 @@ export async function handleItemButtonClick(env, interaction) {
   }
 
   try {
-    // await DeleteMessage(env, interaction);
+    await DeleteMessage(env, interaction);
     return SendActionRowComponents(buttons, interaction.message.content);
   } catch (error) {
     return SendError(error);
@@ -54,7 +54,7 @@ export async function handleRandomButtonClick(env, interaction) {
   clickedButton.style = ButtonStyleTypes.SUCCESS;
 
   try {
-    // await DeleteMessage(env, interaction);
+    await DeleteMessage(env, interaction);
     return SendActionRowComponents(buttons, interaction.message.content);
   } catch (error) {
     return SendError(error);

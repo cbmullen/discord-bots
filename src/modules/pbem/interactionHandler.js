@@ -35,7 +35,7 @@ export async function handlePlayerSelectConsecutive(
   let response = SendStringSelectMessage('Select Player 1', customId, options);
 
   try {
-    // await DeleteMessage(env, interaction);
+    await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);
@@ -83,7 +83,7 @@ export async function handlePlayerSorting(env, interaction, customObj) {
 
   if (options.length > 1) {
     try {
-      // await DeleteMessage(env, interaction);
+      await DeleteMessage(env, interaction);
       return response;
     } catch (error) {
       response = SendError(error);
@@ -122,10 +122,7 @@ export async function handleSwitchModeButtonClicking(
     const userButton = foundUserButton || buttons[0];
 
     for (let i = 0; i < buttons.length; i++) {
-      if (
-        buttons[i].label !== 'Switch Game Mode' &&
-        buttons[i].label !== 'Delete'
-      ) {
+      if (buttons[i].label !== 'Switch Game Mode') {
         buttons[i].label = buttons[i].label.replace('Ready', 'Done');
         buttons[i].style = ButtonStyleTypes.SUCCESS;
         buttons[i].disabled = false;
@@ -139,10 +136,7 @@ export async function handleSwitchModeButtonClicking(
   if (message.includes('Consecutive')) {
     newMessage = `Playing: ${customObj.name}. Simultaneous turns`;
     for (let i = 0; i < buttons.length; i++) {
-      if (
-        buttons[i].label !== 'Switch Game Mode' &&
-        buttons[i].label !== 'Delete'
-      ) {
+      if (buttons[i].label !== 'Switch Game Mode') {
         buttons[i].label = buttons[i].label.replace('Done', 'Ready');
         buttons[i].style = ButtonStyleTypes.PRIMARY;
         buttons[i].disabled = false;
@@ -157,19 +151,11 @@ export async function handleSwitchModeButtonClicking(
   );
 
   try {
-    // await DeleteMessage(env, interaction);
+    await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);
     return response;
-  }
-}
-
-export async function handleDeleteButtonClicking(env, interaction) {
-  try {
-    await DeleteMessage(env, interaction);
-  } catch (error) {
-    return SendError(error);
   }
 }
 
@@ -186,10 +172,7 @@ export async function handleButtonClicking(env, interaction, customObj) {
     const clickedButton = buttons[clickedButtonIndex];
 
     for (let i = 0; i < buttons.length; i++) {
-      if (
-        buttons[i].label !== 'Switch Game Mode' &&
-        buttons[i].label !== 'Delete'
-      ) {
+      if (buttons[i].label !== 'Switch Game Mode') {
         buttons[i].label = buttons[i].label.replace('Ready', 'Done');
         buttons[i].style = ButtonStyleTypes.SUCCESS;
         buttons[i].disabled = false;
@@ -211,15 +194,11 @@ export async function handleButtonClicking(env, interaction, customObj) {
         buttons.every(
           (button) =>
             button.label.includes('Done') ||
-            button.label === 'Switch Game Mode' ||
-            button.label === 'Delete',
+            button.label === 'Switch Game Mode',
         )
       ) {
         for (let i = 0; i < buttons.length; i++) {
-          if (
-            buttons[i].label !== 'Switch Game Mode' &&
-            buttons[i].label !== 'Delete'
-          ) {
+          if (buttons[i].label !== 'Switch Game Mode') {
             buttons[i].label = buttons[i].label.replace('Done', 'Ready');
             buttons[i].style = ButtonStyleTypes.PRIMARY;
           }
@@ -234,11 +213,9 @@ export async function handleButtonClicking(env, interaction, customObj) {
     const clickedButton = buttons[clickedButtonIndex];
 
     for (let i = 0; i < buttons.length; i++) {
-      if (buttons[i].label !== 'Delete') {
-        buttons[i].label = buttons[i].label.replace('Ready', 'Done');
-        buttons[i].style = ButtonStyleTypes.SUCCESS;
-        buttons[i].disabled = false;
-      }
+      buttons[i].label = buttons[i].label.replace('Ready', 'Done');
+      buttons[i].style = ButtonStyleTypes.SUCCESS;
+      buttons[i].disabled = false;
     }
 
     clickedButton.style = ButtonStyleTypes.PRIMARY;
@@ -252,17 +229,10 @@ export async function handleButtonClicking(env, interaction, customObj) {
       userButton.label = userButton.label.replace('Ready', 'Done');
       userButton.style = ButtonStyleTypes.SUCCESS;
 
-      if (
-        buttons.every(
-          (button) =>
-            button.label.includes('Done') || button.label === 'Delete',
-        )
-      ) {
+      if (buttons.every((button) => button.label.includes('Done'))) {
         for (let i = 0; i < buttons.length; i++) {
-          if (buttons[i].label !== 'Delete') {
-            buttons[i].label = buttons[i].label.replace('Done', 'Ready');
-            buttons[i].style = ButtonStyleTypes.PRIMARY;
-          }
+          buttons[i].label = buttons[i].label.replace('Done', 'Ready');
+          buttons[i].style = ButtonStyleTypes.PRIMARY;
         }
       }
     } else if (userButton.label.includes('Done')) {
@@ -275,7 +245,7 @@ export async function handleButtonClicking(env, interaction, customObj) {
   let response = UpdateMessage(interaction, CreateAlertMessage(buttons));
 
   try {
-    // await DeleteMessage(env, interaction);
+    await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);
@@ -326,13 +296,6 @@ async function CreateAndSendUserButtonsFromList(
     }
   }
 
-  userButtons.push({
-    type: MessageComponentTypes.BUTTON,
-    custom_id: `DELETE_PBEMBUTTON_${customObj.name}_${customObj.dateTime}_${customObj.mode}`,
-    label: 'Delete',
-    style: ButtonStyleTypes.DANGER,
-  });
-
   const alertContent = CreateAlertMessage(userButtons);
 
   let response = SendActionRowComponents(
@@ -341,7 +304,7 @@ async function CreateAndSendUserButtonsFromList(
   );
 
   try {
-    // await DeleteMessage(env, interaction);
+    await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);

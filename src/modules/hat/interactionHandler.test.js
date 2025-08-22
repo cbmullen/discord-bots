@@ -30,7 +30,7 @@ describe('Hat Interaction Handler', () => {
     const env = {};
 
     const response = await handleRequest(interaction, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
 
     expect(response.data.components[0].components[0].label).toEqual(
       // Row 0 Button 0 (indexed) = A
@@ -54,7 +54,7 @@ describe('Hat Interaction Handler', () => {
     const env = {};
 
     const response = await handleRequest(interaction, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
 
     expect(response.data.components[0].components[0].label).toEqual(
       // Row 0 Button 0 (indexed) = A
@@ -83,7 +83,7 @@ describe('Hat Interaction Handler', () => {
       ButtonStyleTypes.SUCCESS;
 
     const response = await handleRequest(interaction, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
 
     expect(response.data.components[0].components[0].label).toEqual(
       // Row 0 Button 0 (indexed) = A

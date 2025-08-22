@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug${fileBasename}",
+      "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+      "args": [
+        "${file}",
+        "--runInBand",
+        "--watchAll=false",
+        "--detectOpenHandles"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+    }
+  ]
+}

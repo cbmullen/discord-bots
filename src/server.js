@@ -46,7 +46,7 @@ router.post('/', async (request, env) => {
   return new Response(JSON.stringify(response), {
     headers: {
       'Content-Type': 'application/json',
-      'User-Agent': 'DiscordBot (https://prd.cbmullen.workers.dev/, 1.0.0)',
+      'User-Agent': 'DiscordBot (https://discord-bots-drab.vercel.app/, 1.0.0)',
     },
   });
 });
