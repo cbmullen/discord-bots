@@ -95,6 +95,8 @@ export async function handlePlayerSorting(env, interaction, customObj) {
       username: options[0].label,
     });
 
+    console.log("I'm actually here");
+    console.log(interaction);
     return CreateAndSendUserButtonsFromList(
       env,
       interaction,
@@ -304,7 +306,7 @@ async function CreateAndSendUserButtonsFromList(
   );
 
   try {
-    await DeleteMessage(env, interaction);
+    // await DeleteMessage(env, interaction);
     return response;
   } catch (error) {
     response = SendError(error);

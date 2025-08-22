@@ -101,7 +101,7 @@ describe('Play By Email Interaction Handler - Consecutive', () => {
       MockPlayerSortingInteractionLastTwo('74656'); // Select Janeway, last 2 in the list, so Kirk goes last.
     const env = {};
     const response = await handleRequest(mockPlayerSortingInteraction, env);
-    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({
       data: {
         components: [

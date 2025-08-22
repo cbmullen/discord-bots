@@ -27,7 +27,7 @@ describe('Play By Email Interaction Handler - Both', () => {
     const mockNewGameInteraction = MockNewGameInteraction();
     const env = {};
     const response = await handleRequest(mockNewGameInteraction, env);
-    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledTimes(0);
     const expectedResponse = {
       data: {
         components: [

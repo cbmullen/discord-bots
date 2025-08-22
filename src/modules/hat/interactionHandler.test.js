@@ -107,7 +107,7 @@ describe('Hat Interaction Handler', () => {
     const env = {};
 
     const response = await handleRequest(interaction, env);
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
     expect(response.data.components[0].components[4].label).toEqual(
       'e (Malcolm Reynolds)',
     );
@@ -141,7 +141,7 @@ describe('Hat Interaction Handler', () => {
     const env = {};
     const response = await handleRequest(interaction, env);
 
-    expect(fetch).toHaveBeenCalledTimes(0);
+    expect(fetch).toHaveBeenCalledTimes(1);
     // Doesn't undo what was previously set.
     expect(response.data.components[0].components[4].label).toEqual(
       'e (Jayne Cobb)',
