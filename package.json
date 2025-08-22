@@ -18,6 +18,7 @@
     "debug": "wrangler dev --config wrangler-sbx.toml",
     "deploy:prd": "wrangler deploy --config wrangler-prd.toml",
     "deploy:sbx": "wrangler deploy --config wrangler-sbx.toml",
+    "deploy": "vercel deploy --prod",
     "prepare": "husky"
   },
   "keywords": [],
@@ -25,7 +26,8 @@
   "dependencies": {
     "discord-interactions": "^4.3.0",
     "express": "^5.1.0",
-    "itty-router": "^5.0.21"
+    "itty-router": "^5.0.21",
+    "vercel": "^46.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",

@@ -1,4 +1,4 @@
-import { handleRequest } from '../../server';
+import { handleRequest } from '../../server.js';
 import { InteractionType, InteractionResponseType } from 'discord-interactions';
 
 describe('Cointoss Slash Handler', () => {

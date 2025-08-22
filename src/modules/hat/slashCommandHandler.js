@@ -2,7 +2,7 @@ import { MessageComponentTypes, ButtonStyleTypes } from 'discord-interactions';
 import {
   SendActionRowComponents,
   SendEphemeralMessage,
-} from '../../interactionResponse';
+} from '../../interactionResponse.js';
 // src/slashCommandHandler.js
 
 export function handleSlashCommand(interaction) {

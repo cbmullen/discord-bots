@@ -1,5 +1,5 @@
 // src/slashCommandHandler.js
-import { SendEphemeralMessage } from '../../interactionResponse';
+import { SendEphemeralMessage } from '../../interactionResponse.js';
 
 // Handle the slash command and send the select menu
 export function handleSlashCommand(interaction) {

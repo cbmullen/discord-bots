@@ -1,3 +1,7 @@
+function getEnvVar(env, key) {
+  return process.env[key] || (env && env[key]);
+}
+
 async function DiscordRequest(env, endpoint, options) {
   const url = `https://discord.com/api/v10/` + endpoint;
   if (options.body) options.body = JSON.stringify(options.body);
@@ -6,7 +10,7 @@ async function DiscordRequest(env, endpoint, options) {
     headers: {
       'Content-Type': 'application/json',
       'User-Agent': 'DiscordBot (https://prd.cbmullen.workers.dev/, 1.0.0)',
-      Authorization: `Bot ${env.DISCORD_TOKEN}`,
+      Authorization: `Bot ${getEnvVar(env, 'DISCORD_TOKEN')}`,
     },
     ...options,
   });
@@ -61,9 +65,4 @@ export async function DeleteMessage(env, interaction) {
 export async function GetCommands(env) {
   const endpoint = `/applications/${env.DISCORD_APPLICATION_ID}/commands`;
   return await DiscordRequest(env, endpoint, { method: 'GET' });
-}
-
-export async function DeleteCommand(env, interaction) {
-  const endpoint = `/channels/${interaction.message.channel_id}/messages/${interaction.message.id}`;
-  return await DiscordRequest(env, endpoint, { method: 'DELETE' });
 }

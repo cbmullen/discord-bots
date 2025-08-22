@@ -3,10 +3,10 @@ import {
   SendActionRowComponents,
   SendEphemeralMessage,
   flattenActionRowComponents,
-} from '../../interactionResponse';
-import { SplitCustomId } from './utils';
+} from '../../interactionResponse.js';
+import { SplitCustomId } from './utils.js';
 // import { DeleteMessage } from '../../discord-api';
-import { SendError } from '../../interactionResponse';
+import { SendError } from '../../interactionResponse.js';
 
 export async function handleItemButtonClick(env, interaction) {
   const user = interaction.member.user.username; // Who clicked a button?

@@ -4,20 +4,27 @@ import {
   verifyKey,
 } from 'discord-interactions';
 import { Router } from 'itty-router';
-import { routeHat } from './modules/hat/routing';
-import { routeDice } from './modules/dice/routing';
-import { routePBEM } from './modules/pbem/routing';
-import { routeCoin } from './modules/cointoss/routing';
-import { routeMagic8Ball } from './modules/magic8ball/routing';
-import { routeYodaSpeak } from './modules/yodaspeak/routing';
+import { routeHat } from './modules/hat/routing.js';
+import { routeDice } from './modules/dice/routing.js';
+import { routePBEM } from './modules/pbem/routing.js';
+import { routeCoin } from './modules/cointoss/routing.js';
+import { routeMagic8Ball } from './modules/magic8ball/routing.js';
+import { routeYodaSpeak } from './modules/yodaspeak/routing.js';
 
 const router = Router();
+
+// Add this near the top of the file
+function getEnvVar(env, key) {
+  return process.env[key] || (env && env[key]);
+}
 
 /**
  * Routing
  */
 router.get('/', (request, env) => {
-  return new Response(`👋 ${env.DISCORD_APPLICATION_ID}`);
+  return new Response(
+    `👋 ${getEnvVar(env, 'DISCORD_APPLICATION_ID') || 'Not configured'}`,
+  );
 });
 
 /**
@@ -92,10 +99,11 @@ async function verifyDiscordRequest(request, env) {
   const signature = request.headers.get('x-signature-ed25519');
   const timestamp = request.headers.get('x-signature-timestamp');
   const body = await request.text();
+  const publicKey = getEnvVar(env, 'DISCORD_PUBLIC_KEY');
   const isValidRequest =
     signature &&
     timestamp &&
-    (await verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY));
+    (await verifyKey(body, signature, timestamp, publicKey));
   if (!isValidRequest) {
     return { isValid: false };
   }

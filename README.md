@@ -1,4 +1,4 @@
-# Cloudflare worker example app
+# Vercel worker example app
 
 ## To update discord application with new module, registration is now done on a modular basis <sandbox | production | legacy>
 
@@ -11,18 +11,24 @@ Then go onto the [developer applications](https://discord.com/developers/applica
 In the URL generator add scopes `bot` and `applications.commands`. Add permissions `Send Messages` and `Use slash commands` (reactions to come later maybe)
 Copy the URL into a browser and add the application
 
-## To update the worker on Wrangler <sbx | prd>
+## To update the worker to sandbox
 
 ```
-$ npm run deploy:sbx
+$ vercel
 ```
 
-## To update secrets via wrangler so they aren't overwritten by deployments <sbx | prd>
+## To update the worker to production
 
 ```
-$ wrangler secret put DISCORD_TOKEN --name sbx
-$ wrangler secret put DISCORD_PUBLIC_KEY --name sbx
-$ wrangler secret put DISCORD_APPLICATION_ID --name sbx
+$ vercel --prod
+```
+
+## To update secrets via vercel so they aren't overwritten by deployments <sbx | prd>
+
+```
+$ vercel env add DISCORD_TOKEN
+$ vercel env add put DISCORD_PUBLIC_KEY
+$ vercel env add put DISCORD_APPLICATION_ID
 ```
 
 ---

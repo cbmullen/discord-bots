@@ -4,10 +4,10 @@ import {
   SendStringSelectMessage,
   SendMessage,
   flattenActionRowComponents,
-} from '../../interactionResponse';
-import { GetSelectedUsers, SplitCustomId, SplitMessage } from './utils';
-import { DeleteMessage } from '../../discord-api';
-import { SendError } from '../../interactionResponse';
+} from '../../interactionResponse.js';
+import { GetSelectedUsers, SplitCustomId, SplitMessage } from './utils.js';
+import { DeleteMessage } from '../../discord-api.js';
+import { SendError } from '../../interactionResponse.js';
 
 let orderedUserList = [];
 
