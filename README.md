@@ -3,7 +3,7 @@
 ## To update discord application with new module, registration is now done on a modular basis <sandbox | production | legacy>
 
 ```
-$ ./scripts/set-env.sh sandbox
+$ ./scripts/set-env.sh debug
 $ node ./src/modules/<moduleName>/registerCommand.js
 ```
 
@@ -11,7 +11,7 @@ Then go onto the [developer applications](https://discord.com/developers/applica
 In the URL generator add scopes `bot` and `applications.commands`. Add permissions `Send Messages` and `Use slash commands` (reactions to come later maybe)
 Copy the URL into a browser and add the application
 
-## To update the worker to sandbox
+## To update the worker to preview
 
 ```
 $ vercel
@@ -23,7 +23,7 @@ $ vercel
 $ vercel --prod
 ```
 
-## To update secrets via vercel so they aren't overwritten by deployments <sbx | prd>
+## To update secrets via vercel so they aren't overwritten by deployments <preview | prd>
 
 ```
 $ vercel env add DISCORD_TOKEN
@@ -39,7 +39,7 @@ Don't add ones you don't want. It's annoying.
 But if you have, run the following
 
 ```
-$ ./scripts/set-env.sh sandbox
+$ ./scripts/set-env.sh debug
 $ npm run getCommands
 ```
 
@@ -75,17 +75,16 @@ Below is a basic overview of the project structure (\* = Git Ignored):
 │   ├── server.js                       -> Entry point for all discord apps. Does security checking and routing of interactions
 │   ├── interactions.js                 -> Shared interaction response models
 │   ├── utils.js                        -> May get moved.
-├── wrangler-sbx.toml*        -> Configuration for Cloudflare worker (Sandbox) (Legacy)
-├── wrangler-prd.toml*        -> Configuration for Cloudflare worker (Production)
 ├── package.json
 ├── README.md
+├── vercel.json                         -> Vercel deployment stuff.
 ├── .eslintrc.json
 ├── .prettierignore
 ├── .prettierrc.json
 └── .gitignore
 ```
 
-## Debugging Locally
+## Debugging Locally (No sandbox with preview on Vercel)
 
 ```
 npm run debug
