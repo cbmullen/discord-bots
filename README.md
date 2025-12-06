@@ -126,3 +126,9 @@ npx jest
 npx npm-check-updates -u
 npm install
 ```
+
+## Security Check
+```
+npm audit
+npm audit fix
+```
