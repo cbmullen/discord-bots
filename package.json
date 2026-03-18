@@ -26,27 +26,27 @@
   "dependencies": {
     "discord-interactions": "^4.4.0",
     "express": "^5.2.1",
-    "itty-router": "^5.0.22",
-    "vercel": "^41.0.2"
+    "itty-router": "^5.0.23",
+    "vercel": "^50.33.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
-    "@babel/preset-env": "^7.29.0",
-    "babel-jest": "^30.2.0",
+    "@babel/preset-env": "^7.29.2",
+    "babel-jest": "^30.3.0",
     "c8": "^11.0.0",
     "chai": "^6.2.2",
     "dotenv": "^17.3.1",
-    "eslint": "^10.0.2",
+    "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jest": "^29.15.0",
     "eslint-plugin-prettier": "^5.5.5",
     "husky": "^9.1.7",
-    "jest": "^30.2.0",
-    "lint-staged": "^16.2.7",
-    "mocha": "^11.3.0",
+    "jest": "^30.3.0",
+    "lint-staged": "^16.4.0",
+    "mocha": "^11.7.5",
     "nock": "^14.0.11",
     "prettier": "3.8.1",
-    "sinon": "^21.0.1",
-    "wrangler": "^4.68.1"
+    "sinon": "^21.0.3",
+    "wrangler": "^4.75.0"
   }
 }
